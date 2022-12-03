@@ -74,7 +74,7 @@ namespace VehicleRentingSystem.Controllers
 
         public async Task<IActionResult> Rented()
         { 
-        var userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+            var userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
             var model = await carService.GetRentedAsync(userId);
 
             return View("Mine", model );

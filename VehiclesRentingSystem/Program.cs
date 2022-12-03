@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using VehicleRentingSystem.Contracts;
 using VehicleRentingSystem.Data.Models;
+using VehicleRentingSystem.Services;
 using VehiclesRentingSystem.Data;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -21,6 +23,8 @@ builder.Services.AddDefaultIdentity<User>(options =>
 })
     .AddEntityFrameworkStores<VehicleDbContext>();
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddScoped<ICarService,CarService>();
 
 var app = builder.Build();
 
