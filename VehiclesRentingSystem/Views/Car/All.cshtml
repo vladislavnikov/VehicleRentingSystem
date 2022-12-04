@@ -15,12 +15,12 @@
 
                 <h5 class="card-title mt-1">@car.Brand</h5>
                 <p class="mb-0">Power: @car.Power</p>
-                <p class="mb-0">Price/H: @car.PricePerHour</p>
+                <p class="mb-0">Price/H: @car.PricePerHour$</p>
                 <p>Type: @car.CarType</p>
             </div>
 
             <form class="input-group-sm" asp-route-carId="@car.Id" asp-controller="Car" asp-action="AddToCollection" method="post">
-                <input class="fs-6 btn btn-success mb-3 p-2" type="submit" value="Rent the Car" />
+                <input type="submit" value="Rent the Car" class="fs-6 btn btn-success mb-3 p-2" />
             </form>
         </div>
     }

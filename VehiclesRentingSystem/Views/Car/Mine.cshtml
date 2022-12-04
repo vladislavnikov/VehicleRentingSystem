@@ -4,29 +4,40 @@
 @{
     ViewBag.Title = "My Rents";
 }
+@if (Model.Count() == 0)
+{
 
-<h2 class="text-center">@ViewBag.Title</h2>
-<hr />
+    <h3 class="text-center">Ops...You do not have any rents.</h3>
+    
+        <a class="nav-link text-dark" asp-area="" asp-controller="Car" asp-action="All">You can rent HERE!</a>
+    
 
+    <hr />
+}
+else
+{
 
-<div class="text-center row">
-    @foreach (var car in Model)
-    {
-        <div class="card col-4" style="width: 20rem; ">
-            <img class="card-img-top" style="width: 18rem;"
+    <h2 class="text-center">@ViewBag.Title</h2>
+
+    <div class="text-center row">
+        @foreach (var car in Model)
+        {
+            <div class="card col-4" style="width: 20rem; ">
+                <img class="card-img-top" style="width: 18rem;"
              src="@car.ImageUrl" alt="Car Image">
-            <div class="card-body">
+                <div class="card-body">
 
-                <h5 class="card-title mt-1">@car.Brand</h5>
-                <p class="mb-0">Power: @car.Power</p>
-                <p class="mb-0">Price/H: @car.PricePerHour</p>
-                <p>Type: @car.CarType</p>
+                    <h5 class="card-title mt-1">@car.Brand</h5>
+                    <p class="mb-0">Power: @car.Power</p>
+                    <p class="mb-0">Price/H: @car.PricePerHour</p>
+                    <p>Type: @car.CarType</p>
+                </div>
+
+                <form class="input-group-sm" asp-route-carId="@car.Id" asp-controller="Car" asp-action="RemoveFromCollection" method="post">
+                    <input class="fs-6 btn btn-success mb-3 p-2" type="submit" value="Leave the car" />
+                </form>
             </div>
-
-            <form class="input-group-sm" asp-route-carId="@car.Id" asp-controller="Car" asp-action="RemoveFromCollection" method="post">
-                <input class="fs-6 btn btn-success mb-3 p-2" type="submit" value="Leave the car" />
-            </form>
-        </div>
-    }
-</div>
+        }
+    </div>
+}
 
