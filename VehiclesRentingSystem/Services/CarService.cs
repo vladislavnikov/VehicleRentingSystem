@@ -42,8 +42,7 @@ namespace VehicleRentingSystem.Services
                 throw new ArgumentException("Invalid UserID");
             }
 
-            var car = await context.Cars
-                .FirstOrDefaultAsync(c=> c.Id == carId);
+            var car = await context.Cars.FirstOrDefaultAsync(c=>c.Id == carId);
             //breaks
             if (car==null)
             {
@@ -72,6 +71,7 @@ namespace VehicleRentingSystem.Services
 
             return cars.Select(c=> new CarViewModel()
             { 
+             Id = c.Id,
             Brand = c.Brand,
             Power = c.Power,
             PricePerHour = c.PricePerHour,

@@ -58,6 +58,7 @@ namespace VehicleRentingSystem.Controllers
         
         }
 
+        [HttpPost]
         public async Task<IActionResult> AddToCollection(int carId)
         {
             try
