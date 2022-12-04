@@ -27,7 +27,10 @@ namespace VehicleRentingSystem.Controllers
         [HttpGet]
         public async Task<IActionResult> Add()
         {
-            var model = await carService.GetAllCarAsync();
+            var model = new AddCarViewModel()
+            {
+                CarTypes = await carService.GetCarTypesAsync()
+            };
 
             return View(model);
         }

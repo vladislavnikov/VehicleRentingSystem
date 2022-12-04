@@ -19,8 +19,8 @@
                 <p>Type: @car.CarType</p>
             </div>
 
-            <form class="input-group-sm" asp-route-movieId="@car.Id" asp-controller="Car" asp-action="RemoveFromCollection" method="post">
-                <input class="fs-6 btn btn-success mb-3 p-2" type="submit" value="Leave the car" />
+            <form class="input-group-sm" asp-route-carId="@car.Id" asp-controller="Car" asp-action="AddToCollection" method="post">
+                <input class="fs-6 btn btn-success mb-3 p-2" type="submit" value="Rent the Car" />
             </form>
         </div>
     }

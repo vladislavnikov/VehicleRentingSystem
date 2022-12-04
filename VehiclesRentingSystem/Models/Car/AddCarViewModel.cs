@@ -17,14 +17,13 @@ namespace VehicleRentingSystem.Models.Car
         public decimal PricePerHour { get; set; }
 
         [Required]
-        [StringLength(1000, MinimumLength = 50)]
         public int Power { get; set; }
 
         public string ImageUrl { get; set; } = null!;
 
         public int CarTypeId { get; set; }
 
-        public List<CarType> CarTypes { get; set; } = new List<CarType>();
+        public IEnumerable<CarType> CarTypes { get; set; } = new List<CarType>();
     }
 }
 
