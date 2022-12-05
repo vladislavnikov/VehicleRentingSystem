@@ -69,11 +69,10 @@ namespace VehicleRentingSystem.Controllers
             }
             catch (Exception)
             {
-
                 throw;
             }
 
-            return RedirectToAction(nameof(All));
+            return RedirectToAction(nameof(Rented)); //
         }
 
         public async Task<IActionResult> Rented()
