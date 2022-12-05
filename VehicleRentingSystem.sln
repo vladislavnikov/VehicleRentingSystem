@@ -5,10 +5,10 @@ VisualStudioVersion = 17.3.32929.385
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VehicleRentingSystem", "VehiclesRentingSystem\VehicleRentingSystem.csproj", "{37E6DADB-7604-46AE-9BCF-B99A0DA845D6}"
 	ProjectSection(ProjectDependencies) = postProject
-		{6AA3263B-E0B5-4F16-A2CC-B12613A20D83} = {6AA3263B-E0B5-4F16-A2CC-B12613A20D83}
+		{0D6951A9-667B-428C-81F0-1046FAAE8936} = {0D6951A9-667B-428C-81F0-1046FAAE8936}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test", "Test\Test.csproj", "{6AA3263B-E0B5-4F16-A2CC-B12613A20D83}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{0D6951A9-667B-428C-81F0-1046FAAE8936}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -20,10 +20,10 @@ Global
 		{37E6DADB-7604-46AE-9BCF-B99A0DA845D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{37E6DADB-7604-46AE-9BCF-B99A0DA845D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{37E6DADB-7604-46AE-9BCF-B99A0DA845D6}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6AA3263B-E0B5-4F16-A2CC-B12613A20D83}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6AA3263B-E0B5-4F16-A2CC-B12613A20D83}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6AA3263B-E0B5-4F16-A2CC-B12613A20D83}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6AA3263B-E0B5-4F16-A2CC-B12613A20D83}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0D6951A9-667B-428C-81F0-1046FAAE8936}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0D6951A9-667B-428C-81F0-1046FAAE8936}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0D6951A9-667B-428C-81F0-1046FAAE8936}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0D6951A9-667B-428C-81F0-1046FAAE8936}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
