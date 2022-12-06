@@ -18,7 +18,7 @@ namespace VehicleRentingSystem.Services
 
         public async Task AddCarAsync(AddCarViewModel model)
         {
-            var entity = new Car()
+            var car = new Car()
             { //
             Brand = model.Brand,
             Power = model.Power,
@@ -27,7 +27,7 @@ namespace VehicleRentingSystem.Services
             ImageUrl = model.ImageUrl
             };
 
-            await context.Cars.AddAsync(entity);
+            await context.Cars.AddAsync(car);
             await context.SaveChangesAsync();
         }
 
