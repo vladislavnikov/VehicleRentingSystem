@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using VehicleRentingSystem.Contracts;
 using VehicleRentingSystem.Data.Models;
 using VehicleRentingSystem.Models.Car;
@@ -18,7 +19,7 @@ namespace VehicleRentingSystem.Services
         public async Task AddCarAsync(AddCarViewModel model)
         {
             var entity = new Car()
-            { 
+            { //
             Brand = model.Brand,
             Power = model.Power,
             PricePerHour = model.PricePerHour,
@@ -43,7 +44,7 @@ namespace VehicleRentingSystem.Services
             }
 
             var car = await context.Cars.FirstOrDefaultAsync(c=>c.Id == carId);
-            //breaks
+            
             if (car==null)
             {
                 throw new ArgumentException("Invalid CarID");
@@ -71,7 +72,7 @@ namespace VehicleRentingSystem.Services
 
             return cars.Select(c=> new CarViewModel()
             { 
-             Id = c.Id,
+            Id = c.Id,
             Brand = c.Brand,
             Power = c.Power,
             PricePerHour = c.PricePerHour,
@@ -109,6 +110,7 @@ namespace VehicleRentingSystem.Services
             });
         }
 
+        [HttpPost]
         public async Task RemoveCarFromCollectionAsync(int carId, string userId)
         {
             var user = await context.Users

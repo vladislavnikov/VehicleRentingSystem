@@ -8,10 +8,8 @@
 {
 
     <h3 class="text-center">Ops...You do not have any rents.</h3>
-    
-        <a class="nav-link text-dark" asp-area="" asp-controller="Car" asp-action="All">You can rent HERE!</a>
-    
 
+    <center><a class="nav-link text-dark" asp-area="" asp-controller="Car" asp-action="All">You can rent HERE!</a></center>
     <hr />
 }
 else
@@ -33,7 +31,7 @@ else
                     <p>Type: @car.CarType</p>
                 </div>
 
-                <form class="input-group-sm" asp-route-carId="@car.Id" asp-controller="Car" asp-action="RemoveFromCollection" method="post">
+                <form class="input-group-sm" asp-route-carId="@car.Id" asp-controller="Car" asp-action="RemoveCarFromCollection" method="post">
                     <input class="fs-6 btn btn-success mb-3 p-2" type="submit" value="Leave the car" />
                 </form>
             </div>

@@ -83,7 +83,7 @@ namespace VehicleRentingSystem.Controllers
             return View("Mine", model );
         }
 
-        public async Task<IActionResult> RemoveFromCollection(int carId)
+        public async Task<IActionResult> RemoveCarFromCollection(int carId)
         {
             var userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
             await carService.RemoveCarFromCollectionAsync(carId, userId);
