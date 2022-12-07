@@ -6,7 +6,7 @@ namespace VehicleRentingSystem.Contracts
     {
         Task<IEnumerable<BikeViewModel>> GetAllBikeAsync();
 
-        Task AddBikeAsync(BikeViewModel model);
+        Task AddBikeAsync(AddBikeViewModel model);
 
         Task AddBikeToCollectionAsync(int bikeId, string userId);
 

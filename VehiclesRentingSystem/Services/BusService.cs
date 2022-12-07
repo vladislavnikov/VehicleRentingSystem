@@ -1,33 +1,126 @@
-﻿using VehicleRentingSystem.Contracts;
+﻿using Microsoft.EntityFrameworkCore;
+using VehicleRentingSystem.Contracts;
+using VehicleRentingSystem.Data.Models;
+using VehicleRentingSystem.Models.Bike;
 using VehicleRentingSystem.Models.Bus;
+using VehiclesRentingSystem.Data;
 
 namespace VehicleRentingSystem.Services
 {
     public class BusService : IBusService
     {
-        public Task AddBusAsync(BusViewModel model)
+        private readonly VehicleDbContext context;
+
+        public BusService(VehicleDbContext _context)
         {
-            throw new NotImplementedException();
+            context = _context;
         }
 
-        public Task AddBusToCollectionAsync(int busId, string userId)
+        public async Task AddBusAsync(BusViewModel model)
         {
-            throw new NotImplementedException();
+            var bus = new Bus()
+            { 
+            Brand = model.Brand,
+            Power = model.Power,
+            Seats = model.Seats,
+            ImageUrl = model.ImageUrl,
+            PricePerHour = model.PricePerHour
+            };
+
+            await context.Buses.AddAsync(bus);
+            await context.SaveChangesAsync();
         }
 
-        public Task<IEnumerable<BusViewModel>> GetAllBusAsync()
+        public async Task AddBusToCollectionAsync(int busId, string userId)
         {
-            throw new NotImplementedException();
+            var user = await context.Users
+                .Where(u => u.Id == userId)
+                .Include(u => u.UsersBuses)
+                .FirstOrDefaultAsync();
+
+            if (user == null)
+            {
+                throw new ArgumentException("Invalid UserID");
+            }
+
+            var bus = await context.Buses.FirstOrDefaultAsync(b => b.Id == busId);
+
+            if (bus == null)
+            {
+                throw new ArgumentException("Invalid CarID");
+            }
+
+            if (!user.UsersBuses.Any(b => b.BusId == busId))
+            {
+                user.UsersBuses.Add(new UserBus()
+                {
+                    BusId = bus.Id,
+                    UserId = user.Id,
+                    Bus = bus,
+                    User = user
+                });
+
+                await context.SaveChangesAsync();
+            }
         }
 
-        public Task<IEnumerable<BusViewModel>> GetRentedAsync(string userId)
+        public async Task<IEnumerable<BusViewModel>> GetAllBusAsync()
         {
-            throw new NotImplementedException();
+            var buses = await context.Buses.ToListAsync();
+
+            return buses.Select(b => new BusViewModel() { 
+            Id = b.Id,
+            Brand = b.Brand,
+            Power = b.Power,
+            Seats = b.Seats,
+            PricePerHour = b.PricePerHour,
+            ImageUrl = b.ImageUrl
+            });
         }
 
-        public Task RemoveBusFromCollectionAsync(int busId, string userId)
+        public async Task<IEnumerable<BusViewModel>> GetRentedAsync(string userId)
         {
-            throw new NotImplementedException();
+            var user = await context.Users
+               .Where(u => u.Id == userId)
+               .Include(u => u.UsersBuses)
+               .ThenInclude(b => b.Bus)
+               .FirstOrDefaultAsync();
+
+            if (user == null)
+            {
+                throw new ArgumentException("Invalid UserID");
+            }
+
+            return user.UsersBuses.Select(c => new BusViewModel()
+            {
+                Id = c.BusId, // check in cars
+                Brand = c.Bus.Brand,
+                PricePerHour = c.Bus.PricePerHour,
+                ImageUrl = c.Bus.ImageUrl,
+                Seats = c.Bus.Seats
+            });
+        }
+
+        public async Task RemoveBusFromCollectionAsync(int busId, string userId)
+        {
+            var user = await context.Users
+               .Where(u => u.Id == userId)
+               .Include(u => u.UsersBikes)
+               .FirstOrDefaultAsync();
+
+            if (user == null)
+            {
+                throw new ArgumentException("Invalid UserID");
+            }
+
+            var bus = user.UsersBuses.FirstOrDefault(b => b.BusId == busId);
+
+            if (bus != null)
+            {
+                user.UsersBuses.Remove(bus);
+
+                await context.SaveChangesAsync();
+            }
         }
     }
 }

@@ -7,7 +7,7 @@ namespace VehicleRentingSystem.Contracts
     {
         Task<IEnumerable<TruckViewModel>> GetAllTruckAsync();
 
-        Task AddTruckAsync(TruckViewModel model);
+        Task AddTruckAsync(AddTruckViewModel model);
 
         Task AddTruckToCollectionAsync(int truckId, string userId);
 

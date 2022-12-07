@@ -90,6 +90,7 @@ namespace VehicleRentingSystem.Services
 
             return user.UsersBikes.Select(c => new BikeViewModel()
             {
+                Id= c.BikeId, // check in cars
                 Brand = c.Bike.Brand,
                 PricePerHour = c.Bike.PricePerHour,
                 ImageUrl = c.Bike.ImageUrl

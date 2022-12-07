@@ -6,7 +6,7 @@ namespace VehicleRentingSystem.Contracts
     {
         Task<IEnumerable<BoatViewModel>> GetAllBoatAsync();
 
-        Task AddBoatAsync(BoatViewModel model);
+        Task AddBoatAsync(AddBoatViewModel model);
 
         Task AddBoatToCollectionAsync(int boatId, string userId);
 

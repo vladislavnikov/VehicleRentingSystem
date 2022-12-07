@@ -102,12 +102,13 @@ namespace VehicleRentingSystem.Services
 
             return user.UsersCars.Select(c => new CarViewModel()
             {
+                Id = c.Car.Id,
                 Brand = c.Car.Brand,
                 Power = c.Car.Power,
-                PricePerHour= c.Car.PricePerHour,
+                PricePerHour = c.Car.PricePerHour,
                 ImageUrl = c.Car.ImageUrl,
-                CarType=c.Car.CarType?.Name
-            });
+                CarType = c.Car.CarType?.Name
+            }); ;
         }
 
         [HttpPost]
