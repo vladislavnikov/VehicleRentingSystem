@@ -1,4 +1,7 @@
-﻿using VehicleRentingSystem.Contracts;
+﻿using Microsoft.EntityFrameworkCore;
+using VehicleRentingSystem.Contracts;
+using VehicleRentingSystem.Data.Models;
+using VehicleRentingSystem.Models.Bike;
 using VehicleRentingSystem.Models.Boat;
 using VehiclesRentingSystem.Data;
 
@@ -8,34 +11,116 @@ namespace VehicleRentingSystem.Services
     {
         private readonly VehicleDbContext context;
 
-        public BikeService(VehicleDbContext _context)
+        public BoatService(VehicleDbContext _context)
         {
             context = _context;
         }
 
-        public Task AddBoatAsync(BoatViewModel model)
+        public async Task AddBoatAsync(AddBoatViewModel model)
         {
-            throw new NotImplementedException();
+            var boat = new Boat()
+            {
+                Brand = model.Brand,
+                PricePerHour = model.PricePerHour,
+                ImageUrl = model.ImageUrl,
+                Power = model.Power
+            };
+
+            await context.Boats.AddAsync(boat);
+            await context.SaveChangesAsync();
         }
 
-        public Task AddBoatToCollectionAsync(int boatId, string userId)
+        public async Task AddBoatToCollectionAsync(int boatId, string userId)
         {
-            throw new NotImplementedException();
+            var user = await context.Users
+                .Where(u => u.Id == userId)
+                .Include(u => u.UsersBoats)
+                .FirstOrDefaultAsync();
+
+            if (user == null)
+            {
+                throw new ArgumentException("Invalid UserID");
+            }
+
+            var boat = await context.Boats.FirstOrDefaultAsync(b => b.Id == boatId);
+
+            if (boat == null)
+            {
+                throw new ArgumentException("Invalid CarID");
+            }
+
+            if (!user.UsersBoats.Any(b => b.BoatId == boatId))
+            {
+                user.UsersBoats.Add(new UserBoat()
+                {
+                    BoatId = boat.Id,
+                    UserId = user.Id,
+                    Boat = boat,
+                    User = user
+                });
+
+                await context.SaveChangesAsync();
+            }
         }
 
-        public Task<IEnumerable<BoatViewModel>> GetAllBoatAsync()
+        public async Task<IEnumerable<BoatViewModel>> GetAllBoatAsync()
         {
-            throw new NotImplementedException();
+            var boats = await context.Boats.ToListAsync();
+
+            return boats.Select(b => new BoatViewModel()
+            {
+                Id = b.Id,
+                Brand = b.Brand,
+                PricePerHour = b.PricePerHour,
+                ImageUrl = b.ImageUrl,
+                Power = b.Power
+            });
         }
 
-        public Task<IEnumerable<BoatViewModel>> GetRentedAsync(string userId)
+        public async Task<IEnumerable<BoatViewModel>> GetRentedAsync(string userId)
         {
-            throw new NotImplementedException();
+            var user = await context.Users
+                 .Where(u => u.Id == userId)
+                 .Include(u => u.UsersBoats)
+                 .ThenInclude(b => b.Boat)
+                 .FirstOrDefaultAsync();
+
+            if (user == null)
+            {
+                throw new ArgumentException("Invalid UserID");
+            }
+
+            return user.UsersBoats.Select(c => new BoatViewModel()
+            {
+                Id = c.BoatId,
+                Brand = c.Boat.Brand,
+                PricePerHour = c.Boat.PricePerHour,
+                ImageUrl = c.Boat.ImageUrl,
+                Power = c.Boat.Power
+            });
         }
 
-        public Task RemoveBoatFromCollectionAsync(int boatId, string userId)
+        public async Task RemoveBoatFromCollectionAsync(int boatId, string userId)
         {
-            throw new NotImplementedException();
+            var user = await context.Users
+              .Where(u => u.Id == userId)
+              .Include(u => u.UsersBoats)
+              .FirstOrDefaultAsync();
+
+            if (user == null)
+            {
+                throw new ArgumentException("Invalid UserID");
+            }
+
+            var boat = user.UsersBoats
+                .FirstOrDefault(c => c.BoatId == boatId);
+
+            if (boat != null)
+            {
+                user.UsersBoats.Remove(boat);
+
+                await context.SaveChangesAsync();
+            }
         }
     }
 }
