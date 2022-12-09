@@ -20,7 +20,7 @@ namespace VehicleRentingSystem.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> AllBike()
+        public async Task<IActionResult> All()
         {
             var model = await bikeService.GetAllBikeAsync();
 
@@ -29,7 +29,7 @@ namespace VehicleRentingSystem.Controllers
 
 
         [HttpGet]
-        public async Task<IActionResult> AddBike()
+        public async Task<IActionResult> Add()
         {
             var model = new AddBikeViewModel() { };
 
@@ -37,7 +37,7 @@ namespace VehicleRentingSystem.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddBike(AddBikeViewModel model)
+        public async Task<IActionResult> Add(AddBikeViewModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -47,7 +47,7 @@ namespace VehicleRentingSystem.Controllers
             try
             {
                await bikeService.AddBikeAsync(model); //check if it is addbikevm or just bikevm
-                return RedirectToAction(nameof(AllBike)); //AllBike
+                return RedirectToAction(nameof(All)); //AllBike
             }
             catch (Exception)
             {
@@ -73,23 +73,23 @@ namespace VehicleRentingSystem.Controllers
                 throw;
             }
 
-            return RedirectToAction(nameof(AllBike)); //RentedBikes
+            return RedirectToAction(nameof(Rented)); 
         }
 
-        public async Task<IActionResult> RentedBikes()
+        public async Task<IActionResult> Rented()
         {
             var userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
             var model = await bikeService.GetRentedAsync(userId);
 
-            return View("Mine", model); //MineBikes
+            return View("Mine", model); //Mine, Bikes
         }
 
-        public async Task<IActionResult> RemoveBikeFromCollection(int bike)
+        public async Task<IActionResult> RemoveBikeFromCollection(int bikeId)
         {
             var userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
-            await bikeService.RemoveBikeFromCollectionAsync(bike, userId);
+            await bikeService.RemoveBikeFromCollectionAsync(bikeId, userId);
 
-            return RedirectToAction(nameof(RentedBikes)); 
+            return RedirectToAction(nameof(Rented)); 
         }
 
 
