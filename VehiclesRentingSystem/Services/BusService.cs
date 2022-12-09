@@ -16,7 +16,7 @@ namespace VehicleRentingSystem.Services
             context = _context;
         }
 
-        public async Task AddBusAsync(BusViewModel model)
+        public async Task AddBusAsync(AddBusViewModel model)
         {
             var bus = new Bus()
             { 

@@ -25,7 +25,19 @@
                         @if (User?.Identity?.IsAuthenticated ?? false)
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Car" asp-action="Rented">MyCars</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Car" asp-action="All">Cars</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Bus" asp-action="All">Buses</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Truck" asp-action="All">Trucks</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Boat" asp-action="All">Boats</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Boat" asp-action="All">Bikes</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Car" asp-action="Add">Add</a>
@@ -37,6 +49,16 @@
             </div>
         </nav>
     </header>
+    @if (User?.Identity?.IsAuthenticated ?? false)
+    {
+        <p>
+            <a class=" text-dark" style="text-decoration: none" asp-area="" asp-controller="Car" asp-action="Rented">MyCars</a>
+            <a class=" text-dark" style="text-decoration: none" asp-area="" asp-controller="Truck" asp-action="Rented">MyTrucks</a>
+            <a class=" text-dark" style="text-decoration: none" asp-area="" asp-controller="Bus" asp-action="Rented">MyBuses</a>
+            <a class=" text-dark" style="text-decoration: none" asp-area="" asp-controller="Boat" asp-action="Rented">MyBoats</a>
+            <a class=" text-dark" style="text-decoration: none" asp-area="" asp-controller="Bike" asp-action="Rented">MyBikes</a>
+        </p>
+    }
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()

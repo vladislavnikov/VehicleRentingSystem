@@ -31,6 +31,11 @@ builder.Services.ConfigureApplicationCookie(options =>
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddScoped<ICarService,CarService>();
+builder.Services.AddScoped<IBusService,BusService>();
+builder.Services.AddScoped<IBoatService,BoatService>();
+builder.Services.AddScoped<ITruckService,TruckService>();
+builder.Services.AddScoped<IBikeService,BikeService>();
+
 
 var app = builder.Build();
 
