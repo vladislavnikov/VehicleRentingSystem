@@ -92,7 +92,16 @@ namespace VehicleRentingSystem.Controllers
             return RedirectToAction(nameof(Rented));
         }
 
+        [HttpPost]
+        public async Task<IActionResult> Detail(int bikeId)
+        {
+            var bikes = await bikeService.GetAllBikeAsync();
 
+            var bike = bikes.FirstOrDefault(c => c.Id == bikeId);
+
+
+            return View("Detail", bike);
+        }
 
     }
 }

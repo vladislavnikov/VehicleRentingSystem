@@ -91,5 +91,16 @@ namespace VehicleRentingSystem.Controllers
 
             return RedirectToAction(nameof(Rented));
         }
+
+        [HttpPost]
+        public async Task<IActionResult> Detail(int boatId)
+        {
+            var boats = await boatService.GetAllBoatAsync();
+
+            var boat = boats.FirstOrDefault(c => c.Id == boatId);
+
+
+            return View("Detail", boat);
+        }
     }
 }

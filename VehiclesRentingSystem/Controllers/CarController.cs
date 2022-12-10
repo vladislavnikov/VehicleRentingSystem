@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 using VehicleRentingSystem.Contracts;
 using VehicleRentingSystem.Models.Car;
+using VehiclesRentingSystem.Data;
 
 namespace VehicleRentingSystem.Controllers
 {
@@ -10,10 +12,12 @@ namespace VehicleRentingSystem.Controllers
     public class CarController : Controller
     {
         private readonly ICarService carService;
+        private readonly VehicleDbContext context;
 
-        public CarController(ICarService _carService)
+        public CarController(ICarService _carService, VehicleDbContext _context)
         {
             carService = _carService;
+            context = _context;
         }
 
         [HttpGet]
@@ -55,7 +59,7 @@ namespace VehicleRentingSystem.Controllers
 
                 return View(model);
             }
-        
+
         }
 
         [HttpPost]
@@ -76,11 +80,11 @@ namespace VehicleRentingSystem.Controllers
         }
 
         public async Task<IActionResult> Rented()
-        { 
+        {
             var userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
             var model = await carService.GetRentedAsync(userId);
 
-            return View("Mine", model );
+            return View("Mine", model);
         }
 
         public async Task<IActionResult> RemoveCarFromCollection(int carId)
@@ -91,6 +95,18 @@ namespace VehicleRentingSystem.Controllers
             return RedirectToAction(nameof(Rented));
         }
 
+        [HttpPost]
+        public async Task<IActionResult> Detail(int carId)
+        {
+             var cars = await carService.GetAllCarAsync();
+
+            var car = cars.FirstOrDefault(c => c.Id == carId);
+
+
+            return View("Detail", car);
+        }
+
+       
 
     }
 }

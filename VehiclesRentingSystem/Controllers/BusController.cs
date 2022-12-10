@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using VehicleRentingSystem.Contracts;
@@ -88,6 +89,17 @@ namespace VehicleRentingSystem.Controllers
             await busService.RemoveBusFromCollectionAsync(busId, userId);
 
             return RedirectToAction(nameof(Rented));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Detail(int busId)
+        {
+            var cars = await busService.GetAllBusAsync();
+
+            var car = cars.FirstOrDefault(c => c.Id == busId);
+
+
+            return View("Detail", car);
         }
     }
 }

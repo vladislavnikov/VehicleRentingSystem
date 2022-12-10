@@ -25,6 +25,9 @@ else
                 <form class="input-group-sm" asp-route-bikeId="@bike.Id" asp-controller="Bike" asp-action="AddBikeToCollection" method="post">
                     <input type="submit" value="Rent the Bike" class="fs-6 btn btn-success mb-3 p-2" />
                 </form>
+                <form class="input-group-sm" asp-route-bikeId="@bike.Id" asp-controller="Bike" asp-action="Detail" method="post">
+                    <input type="submit" value="Details" class="fs-6 btn btn-success mb-3 p-2" />
+                </form>
             </div>
         }
     </div>

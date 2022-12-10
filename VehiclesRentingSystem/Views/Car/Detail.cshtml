@@ -1,5 +1,21 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@using VehicleRentingSystem.Models.Car
+@model CarViewModel
+
 @{
+    ViewBag.Title = "Vehicles for Renting";
 }
+
+    <div class="text-center row">
+        <div>
+            <img src="@Model.ImageUrl" alt="Book Image">
+            <div>
+
+            <h5>Model:@Model.Brand</h5>
+            <p>Power: @Model.Power</p>
+            <p>Price/H: @Model.PricePerHour$</p>
+            <p>Type: @Model.CarType</p>
+            </div>
+        </div>
+    </div>
+              
+

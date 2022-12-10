@@ -1,5 +1,4 @@
-﻿
-@using VehicleRentingSystem.Models.Car
+﻿@using VehicleRentingSystem.Models.Car
 @model IEnumerable<CarViewModel>
 
 @{
@@ -28,6 +27,10 @@ else
                 <form class="input-group-sm" asp-route-carId="@car.Id" asp-controller="Car" asp-action="AddToCollection" method="post">
                     <input type="submit" value="Rent the Car" class="fs-6 btn btn-success mb-3 p-2" />
                 </form>
+                <form class="input-group-sm" asp-route-carId="@car.Id" asp-controller="Car" asp-action="Detail" method="post">
+                    <input type="submit" value="Details" class="fs-6 btn btn-success mb-3 p-2" />
+                </form>
+
             </div>
         }
     </div>

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using VehicleRentingSystem.Contracts;
@@ -90,5 +91,15 @@ namespace VehicleRentingSystem.Controllers
             return RedirectToAction(nameof(Rented));
         }
 
+        [HttpPost]
+        public async Task<IActionResult> Detail(int truckId)
+        {
+            var trucks = await truckService.GetAllTruckAsync();
+
+            var truck = trucks.FirstOrDefault(c => c.Id == truckId);
+
+
+            return View("Detail", truck);
+        }
     }
 }
