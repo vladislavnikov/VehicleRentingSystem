@@ -1,5 +1,39 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@using VehicleRentingSystem.Models.Boat
+@model AddBoatViewModel
+
 @{
+    ViewBag.Title = "Add Boat";
 }
+
+<h2 class="text-center">@ViewBag.Title</h2>
+<hr />
+
+<div class="row">
+    <div class="col-sm-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
+        <form method="post">
+            <div class="mb-3">
+                <label asp-for="@Model.Brand" class="form-label">Brand</label>
+                <input asp-for="@Model.Brand" class="form-control" aria-required="true" />
+                <span asp-validation-for="Brand" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="@Model.PricePerHour" class="form-label">Price/Hour</label>
+                <input asp-for="@Model.PricePerHour" class="form-control" aria-required="true" />
+                <span asp-validation-for="PricePerHour" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="@Model.Power" class="form-label">Power</label>
+                <input asp-for="@Model.Power" class="form-control" aria-required="true" />
+                <span asp-validation-for="Power" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="@Model.ImageUrl" class="form-label">Image URL</label>
+                <input asp-for="@Model.ImageUrl" class="form-control" aria-required="true" />
+                <span asp-validation-for="ImageUrl" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <input class="btn btn-primary" type="submit" value="Add" />
+            </div>
+        </form>
+    </div>
+</div>
