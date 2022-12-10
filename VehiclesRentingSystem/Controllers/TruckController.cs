@@ -79,7 +79,7 @@ namespace VehicleRentingSystem.Controllers
             var userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
             var model = await truckService.GetRentedAsync(userId);
 
-            return View("Mine", model); //Mine, Bikes
+            return View("Mine", model); 
         }
 
         public async Task<IActionResult> RemoveTruckFromCollection(int truckId)

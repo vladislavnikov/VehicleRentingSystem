@@ -92,7 +92,7 @@ namespace VehicleRentingSystem.Services
 
             return user.UsersBoats.Select(c => new BoatViewModel()
             {
-                Id = c.BoatId,
+                Id = c.Boat.Id,
                 Brand = c.Boat.Brand,
                 PricePerHour = c.Boat.PricePerHour,
                 ImageUrl = c.Boat.ImageUrl,

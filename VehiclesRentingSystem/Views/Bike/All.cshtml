@@ -22,7 +22,7 @@ else
                     <p class="mb-0">Price/H: @bike.PricePerHour$</p>
                 </div>
 
-                <form class="input-group-sm" asp-route-carId="@bike.Id" asp-controller="Bike" asp-action="AddBikeToCollection" method="post">
+                <form class="input-group-sm" asp-route-bikeId="@bike.Id" asp-controller="Bike" asp-action="AddBikeToCollection" method="post">
                     <input type="submit" value="Rent the Bike" class="fs-6 btn btn-success mb-3 p-2" />
                 </form>
             </div>

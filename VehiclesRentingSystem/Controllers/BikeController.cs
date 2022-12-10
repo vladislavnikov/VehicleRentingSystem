@@ -46,7 +46,7 @@ namespace VehicleRentingSystem.Controllers
 
             try
             {
-               await bikeService.AddBikeAsync(model); //check if it is addbikevm or just bikevm
+                await bikeService.AddBikeAsync(model); //check if it is addbikevm or just bikevm
                 return RedirectToAction(nameof(All)); //AllBike
             }
             catch (Exception)
@@ -73,7 +73,7 @@ namespace VehicleRentingSystem.Controllers
                 throw;
             }
 
-            return RedirectToAction(nameof(Rented)); 
+            return RedirectToAction(nameof(Rented));
         }
 
         public async Task<IActionResult> Rented()
@@ -89,8 +89,9 @@ namespace VehicleRentingSystem.Controllers
             var userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
             await bikeService.RemoveBikeFromCollectionAsync(bikeId, userId);
 
-            return RedirectToAction(nameof(Rented)); 
+            return RedirectToAction(nameof(Rented));
         }
+
 
 
     }

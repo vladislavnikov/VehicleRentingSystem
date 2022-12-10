@@ -27,7 +27,7 @@ else
                     <p class="mb-0">Price/H: @boat.PricePerHour$</p>
                 </div>
 
-                <form class="input-group-sm" asp-route-carId="@boat.Id" asp-controller="Boat" asp-action="RemoveBoatFromCollection" method="post">
+                <form class="input-group-sm" asp-route-boatId="@boat.Id" asp-controller="Boat" asp-action="RemoveBoatFromCollection" method="post">
                     <input type="submit" value="Leave the Boat" class="fs-6 btn btn-success mb-3 p-2" />
                 </form>
             </div>

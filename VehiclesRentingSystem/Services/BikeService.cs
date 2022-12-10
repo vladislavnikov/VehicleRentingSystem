@@ -45,7 +45,7 @@ namespace VehicleRentingSystem.Services
 
             if (bike == null)
             {
-                throw new ArgumentException("Invalid CarID");
+                throw new ArgumentException("Invalid BikeID");
             }
 
             if (!user.UsersBikes.Any(b => b.BikeId == bikeId))
@@ -90,7 +90,7 @@ namespace VehicleRentingSystem.Services
 
             return user.UsersBikes.Select(c => new BikeViewModel()
             {
-                Id= c.BikeId, // check in cars
+                Id= c.BikeId,
                 Brand = c.Bike.Brand,
                 PricePerHour = c.Bike.PricePerHour,
                 ImageUrl = c.Bike.ImageUrl

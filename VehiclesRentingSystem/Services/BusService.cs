@@ -93,7 +93,7 @@ namespace VehicleRentingSystem.Services
 
             return user.UsersBuses.Select(c => new BusViewModel()
             {
-                Id = c.BusId, // check in cars
+                Id = c.Bus.Id, // check in cars
                 Brand = c.Bus.Brand,
                 PricePerHour = c.Bus.PricePerHour,
                 ImageUrl = c.Bus.ImageUrl,

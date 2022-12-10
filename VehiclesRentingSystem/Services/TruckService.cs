@@ -47,7 +47,7 @@ namespace VehicleRentingSystem.Services
 
             if (truck == null)
             {
-                throw new ArgumentException("Invalid CarID");
+                throw new ArgumentException("Invalid TruckID");
             }
 
             if (!user.UsersTrucks.Any(b => b.TruckId == truckId))
@@ -94,7 +94,7 @@ namespace VehicleRentingSystem.Services
 
             return user.UsersTrucks.Select(c => new TruckViewModel()
             {
-                Id = c.TruckId, 
+                Id = c.Truck.Id, 
                 Brand = c.Truck.Brand,
                 PricePerHour = c.Truck.PricePerHour,
                 ImageUrl = c.Truck.ImageUrl,

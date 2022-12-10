@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using VehicleRentingSystem.Contracts;
 using VehicleRentingSystem.Models.Bike;
 using VehicleRentingSystem.Models.Boat;
+using VehicleRentingSystem.Models.Car;
 using VehicleRentingSystem.Services;
 
 namespace VehicleRentingSystem.Controllers
@@ -32,6 +34,29 @@ namespace VehicleRentingSystem.Controllers
             var model = new AddBoatViewModel() { };
 
             return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Add(AddBoatViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            try
+            {
+                await boatService.AddBoatAsync(model);
+                return RedirectToAction(nameof(All));
+            }
+            catch (Exception)
+            {
+
+                ModelState.AddModelError("", "Something went wrong");
+
+                return View(model);
+            }
+
         }
 
         [HttpPost]
