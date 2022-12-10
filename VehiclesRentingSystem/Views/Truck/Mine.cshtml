@@ -1,0 +1,37 @@
+﻿@using VehicleRentingSystem.Models.Trucks
+@model IEnumerable<TruckViewModel>
+
+@{
+    ViewBag.Title = "Vehicles for Renting";
+}
+@if (Model.Count() == 0)
+{
+
+    <h3 class="text-center">Ops...You do not have any rents.</h3>
+
+    <center><a class="nav-link text-dark" asp-area="" asp-controller="Truck" asp-action="All">You can rent HERE!</a></center>
+    <hr />
+}
+else
+{
+    <div class="text-center row">
+        @foreach (var truck in Model)
+        {
+            <div class="card col-4" style="width: 20rem; ">
+                <img class="card-img-top" style="width: 18rem;"
+             src="@truck.ImageUrl" alt="Book Image">
+                <div class="card-body">
+
+                    <h5 class="card-title mt-1">@truck.Brand</h5>
+                    <p class="mb-0">Power: @truck.Power</p>
+                    <p class="mb-0">MaxWeight: @truck.MaxWeight</p>
+                    <p class="mb-0">Price/H: @truck.PricePerHour$</p>
+                </div>
+
+                <form class="input-group-sm" asp-route-carId="@truck.Id" asp-controller="Truck" asp-action="RemoveTruckFromCollection" method="post">
+                    <input type="submit" value="Leave the Truck" class="fs-6 btn btn-success mb-3 p-2" />
+                </form>
+            </div>
+        }
+    </div>
+}

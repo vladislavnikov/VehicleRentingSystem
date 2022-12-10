@@ -1,5 +1,37 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@using VehicleRentingSystem.Models.Bus
+@model IEnumerable<BusViewModel>
+
 @{
+    ViewBag.Title = "Vehicles for Renting";
+}
+@if (Model.Count() == 0)
+{
+
+    <h3 class="text-center">Ops...You do not have any rents.</h3>
+
+    <center><a class="nav-link text-dark" asp-area="" asp-controller="Bus" asp-action="All">You can rent HERE!</a></center>
+    <hr />
+}
+else
+{
+<div class="text-center row">
+    @foreach (var bus in Model)
+    {
+        <div class="card col-4" style="width: 20rem; ">
+            <img class="card-img-top" style="width: 18rem;"
+             src="@bus.ImageUrl" alt="Book Image">
+            <div class="card-body">
+
+                <h5 class="card-title mt-1">@bus.Brand</h5>
+                <p class="mb-0">Power: @bus.Power</p>
+                <p class="mb-0">Seats: @bus.Seats</p>
+                <p class="mb-0">Price/H: @bus.PricePerHour$</p>
+            </div>
+
+            <form class="input-group-sm" asp-route-carId="@bus.Id" asp-controller="Bus" asp-action="RemoveBusFromCollection" method="post">
+                <input type="submit" value="Leave the Bus" class="fs-6 btn btn-success mb-3 p-2" />
+            </form>
+        </div>
+    }
+</div>
 }

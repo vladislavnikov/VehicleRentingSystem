@@ -4,7 +4,12 @@
 @{
     ViewBag.Title = "Vehicles for Renting";
 }
-
+@if (Model.Count() == 0)
+{
+    <h3 class="text-center">There are no buses!</h3>
+}
+else
+{
 <div class="text-center row">
     @foreach (var bus in Model)
     {
@@ -19,9 +24,10 @@
                 <p class="mb-0">Price/H: @bus.PricePerHour$</p>
             </div>
 
-            <form class="input-group-sm" asp-route-carId="@bus.Id" asp-controller="Bus" asp-action="AddToCollection" method="post">
+            <form class="input-group-sm" asp-route-carId="@bus.Id" asp-controller="Bus" asp-action="AddBusToCollection" method="post">
                 <input type="submit" value="Rent the Bus" class="fs-6 btn btn-success mb-3 p-2" />
             </form>
         </div>
     }
 </div>
+}
