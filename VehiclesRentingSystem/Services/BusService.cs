@@ -105,7 +105,7 @@ namespace VehicleRentingSystem.Services
         {
             var user = await context.Users
                .Where(u => u.Id == userId)
-               .Include(u => u.UsersBikes)
+               .Include(u => u.UsersBuses)
                .FirstOrDefaultAsync();
 
             if (user == null)

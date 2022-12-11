@@ -42,9 +42,10 @@
                 <span asp-validation-for="CarTypeId" class="text-danger"></span>
             </div>
 
-            <div class="mb-3">
-                <input class="btn btn-primary" type="submit" value="Add" />
+            <div class="mb-3"  asp-area="Admin"  asp-controller="Car" asp-action="Add" method="post">
+                <input class="btn btn-primary"  type="submit" value="Add" />
             </div>
+
         </form>
     </div>
 </div>

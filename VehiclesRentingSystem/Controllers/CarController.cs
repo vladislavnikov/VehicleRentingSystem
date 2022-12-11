@@ -29,6 +29,7 @@ namespace VehicleRentingSystem.Controllers
         }
 
         [HttpGet]
+        [Area("Admin")]
         public async Task<IActionResult> Add()
         {
             var model = new AddCarViewModel()
@@ -40,6 +41,7 @@ namespace VehicleRentingSystem.Controllers
         }
 
         [HttpPost]
+        [Area("Admin")]
         public async Task<IActionResult> Add(AddCarViewModel model)
         {
             if (!ModelState.IsValid)
@@ -60,6 +62,16 @@ namespace VehicleRentingSystem.Controllers
                 return View(model);
             }
 
+        }
+
+        [HttpPost]
+        [Area("Admin")]
+        public IActionResult Delete(int carId)
+        {
+
+            var car = context.Cars.FirstOrDefault(c => c.Id == carId);
+            context.Cars.Remove(car);
+            return RedirectToAction(nameof(All));
         }
 
         [HttpPost]
