@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Data;
+using VehicleRentingSystem.Contracts;
 using VehicleRentingSystem.Data.Models;
 using VehicleRentingSystem.Models.Car;
 using VehicleRentingSystem.Services;
@@ -8,23 +9,24 @@ using VehiclesRentingSystem.Data;
 
 namespace VehicleRentingSystem.Areas.Admin.Controllers
 {
-    [Authorize(Roles = "admin")]
+    [Authorize(Roles = "Admin")]
     [Area("Admin")]
     public class CarController : Controller
     {
         private readonly VehicleDbContext context;
-        private readonly CarService carService;
+        private readonly ICarService carService;
 
-        public CarController(VehicleDbContext _context, CarService _carService)
+        public CarController(VehicleDbContext _context, ICarService _carService)// CarService _carService)
         {
             context = _context;
-            carService = _carService;
+            this.carService = _carService;
         }
 
         [HttpGet]
+        //[Area("Admin")]
         public async Task<IActionResult> Index()
         {
-            // var model = await carService.GetAllCarAsync();
+            //var model = await carService.GetAllCarAsync();
 
             var models = context.Cars
                 .Select(c => new CarViewModel
@@ -39,8 +41,10 @@ namespace VehicleRentingSystem.Areas.Admin.Controllers
         }
 
         [HttpGet]
+        //[Area("Admin")]
         public async Task<IActionResult> Add()
         {
+             
             var model = new AddCarViewModel()
             {
                 CarTypes = await carService.GetCarTypesAsync()
@@ -50,6 +54,7 @@ namespace VehicleRentingSystem.Areas.Admin.Controllers
         }
 
         [HttpPost]
+        //[Area("Admin")]
         public async Task<IActionResult> Add(AddCarViewModel model)
         {
             var car = new Car
@@ -67,6 +72,7 @@ namespace VehicleRentingSystem.Areas.Admin.Controllers
         }
 
         [HttpPost]
+        
         public IActionResult Delete(int carId)
         {
 

@@ -41,22 +41,22 @@
                             </li>
                             @if (User.IsInRole("Admin"))
                             {
-                                <li class="nav-item">
+                            <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="Admin" asp-controller="Car" asp-action="Add">AddCar</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Bus" asp-action="Add">AddBus</a>
                             </li>
-                             <li class="nav-item">
+                            <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Truck" asp-action="Add">AddTruck</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Bike" asp-action="Add">AddBike</a>
                             </li>
-                             <li class="nav-item">
+                            <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Boat" asp-action="Add">AddBoat</a>
                             </li>
-                            }
+                        }
                         }
                     </ul>
                     <partial name="_LoginPartial" />
@@ -67,17 +67,17 @@
     @if (User?.Identity?.IsAuthenticated ?? false)
     {
         <center>
-        <p>
-            <a class=" text-dark" style="text-decoration: none" asp-area="" asp-controller="Car" asp-action="Rented">MyCars</a>
-            <a>|</a>
-            <a class=" text-dark" style="text-decoration: none" asp-area="" asp-controller="Truck" asp-action="Rented">MyTrucks</a>
+            <p>
+                <a class=" text-dark" style="text-decoration: none" asp-area="" asp-controller="Car" asp-action="Rented">MyCars</a>
                 <a>|</a>
-            <a class=" text-dark" style="text-decoration: none" asp-area="" asp-controller="Bus" asp-action="Rented">MyBuses</a>
+                <a class=" text-dark" style="text-decoration: none" asp-area="" asp-controller="Truck" asp-action="Rented">MyTrucks</a>
                 <a>|</a>
-            <a class=" text-dark" style="text-decoration: none" asp-area="" asp-controller="Boat" asp-action="Rented">MyBoats</a>
+                <a class=" text-dark" style="text-decoration: none" asp-area="" asp-controller="Bus" asp-action="Rented">MyBuses</a>
                 <a>|</a>
-            <a class=" text-dark" style="text-decoration: none" asp-area="" asp-controller="Bike" asp-action="Rented">MyBikes</a>
-        </p>
+                <a class=" text-dark" style="text-decoration: none" asp-area="" asp-controller="Boat" asp-action="Rented">MyBoats</a>
+                <a>|</a>
+                <a class=" text-dark" style="text-decoration: none" asp-area="" asp-controller="Bike" asp-action="Rented">MyBikes</a>
+            </p>
         </center>
     }
     <div class="container">

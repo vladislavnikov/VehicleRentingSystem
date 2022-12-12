@@ -23,15 +23,20 @@ namespace VehicleRentingSystem.Controllers
         [HttpGet]
         public async Task<IActionResult> All()
         {
+            var fu = User;
+
             var model = await carService.GetAllCarAsync();
 
             return View(model);
         }
 
         [HttpGet]
-        [Area("Admin")]
+        //[Area("Admin")]
+        ////[Route("")]
         public async Task<IActionResult> Add()
         {
+           
+
             var model = new AddCarViewModel()
             {
                 CarTypes = await carService.GetCarTypesAsync()
@@ -41,7 +46,7 @@ namespace VehicleRentingSystem.Controllers
         }
 
         [HttpPost]
-        [Area("Admin")]
+        
         public async Task<IActionResult> Add(AddCarViewModel model)
         {
             if (!ModelState.IsValid)
@@ -110,7 +115,7 @@ namespace VehicleRentingSystem.Controllers
         [HttpPost]
         public async Task<IActionResult> Detail(int carId)
         {
-             var cars = await carService.GetAllCarAsync();
+            var cars = await carService.GetAllCarAsync();
 
             var car = cars.FirstOrDefault(c => c.Id == carId);
 
@@ -118,7 +123,7 @@ namespace VehicleRentingSystem.Controllers
             return View("Detail", car);
         }
 
-       
+
 
     }
 }
