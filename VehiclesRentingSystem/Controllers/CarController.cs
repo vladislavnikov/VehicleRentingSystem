@@ -31,11 +31,11 @@ namespace VehicleRentingSystem.Controllers
         }
 
         [HttpGet]
-        //[Area("Admin")]
-        ////[Route("")]
+        [Area("Admin")]
+        //[Route("")]
         public async Task<IActionResult> Add()
         {
-           
+
 
             var model = new AddCarViewModel()
             {
@@ -46,7 +46,7 @@ namespace VehicleRentingSystem.Controllers
         }
 
         [HttpPost]
-        
+        [Area("Admin")]
         public async Task<IActionResult> Add(AddCarViewModel model)
         {
             if (!ModelState.IsValid)
@@ -57,7 +57,8 @@ namespace VehicleRentingSystem.Controllers
             try
             {
                 await carService.AddCarAsync(model);
-                return RedirectToAction(nameof(All));
+                 return RedirectToAction(nameof(All));
+                
             }
             catch (Exception)
             {
@@ -71,11 +72,12 @@ namespace VehicleRentingSystem.Controllers
 
         [HttpPost]
         [Area("Admin")]
-        public IActionResult Delete(int carId)
+        public async Task<IActionResult> Delete(int carId)
         {
 
             var car = context.Cars.FirstOrDefault(c => c.Id == carId);
-            context.Cars.Remove(car);
+             context.Cars.Remove(car);
+            await context.SaveChangesAsync();
             return RedirectToAction(nameof(All));
         }
 

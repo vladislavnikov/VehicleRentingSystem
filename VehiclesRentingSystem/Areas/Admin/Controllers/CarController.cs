@@ -23,8 +23,7 @@ namespace VehicleRentingSystem.Areas.Admin.Controllers
         }
 
         [HttpGet]
-        //[Area("Admin")]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> All()
         {
             //var model = await carService.GetAllCarAsync();
 
@@ -34,51 +33,52 @@ namespace VehicleRentingSystem.Areas.Admin.Controllers
                     Id = c.Id,
                     Brand = c.Brand,
                     Power = c.Power,
-                    PricePerHour = c.PricePerHour
+                    PricePerHour = c.PricePerHour,
+                    ImageUrl = c.ImageUrl
                 });
 
             return View(models);
         }
 
-        [HttpGet]
-        //[Area("Admin")]
-        public async Task<IActionResult> Add()
-        {
-             
-            var model = new AddCarViewModel()
-            {
-                CarTypes = await carService.GetCarTypesAsync()
-            };
+        //[HttpGet]
+        ////[Area("Admin")]
+        //public async Task<IActionResult> Add()
+        //{
 
-            return View(model);
-        }
+        //    var model = new AddCarViewModel()
+        //    {
+        //        CarTypes = await carService.GetCarTypesAsync()
+        //    };
 
-        [HttpPost]
-        //[Area("Admin")]
-        public async Task<IActionResult> Add(AddCarViewModel model)
-        {
-            var car = new Car
-            {
-                Brand = model.Brand,
-                Power = model.Power,
-                PricePerHour = model.PricePerHour,
-                CarTypeId = model.CarTypeId,
-            };
+        //    return View(model);
+        //}
 
-            await context.Cars.AddAsync(car);
-            await context.SaveChangesAsync();
+        //[HttpPost]
+        ////[Area("Admin")]
+        //public async Task<IActionResult> Add(AddCarViewModel model)
+        //{
+        //    var car = new Car
+        //    {
+        //        Brand = model.Brand,
+        //        Power = model.Power,
+        //        PricePerHour = model.PricePerHour,
+        //        CarTypeId = model.CarTypeId,
+        //        ImageUrl = model.ImageUrl
+        //    };
 
-            return RedirectToAction(nameof(Index));
-        }
+        //    await context.Cars.AddAsync(car);
+        //    await context.SaveChangesAsync();
 
-        [HttpPost]
-        
-        public IActionResult Delete(int carId)
-        {
+        //    return RedirectToAction(nameof(Index));
+        //}
 
-            var car = context.Cars.FirstOrDefault(c => c.Id == carId);
-            context.Cars.Remove(car);
-            return RedirectToAction(nameof(Index));
-        }
+        //[HttpPost]
+        //public IActionResult Delete(int carId)
+        //{
+
+        //    var car = context.Cars.FirstOrDefault(c => c.Id == carId);
+        //    context.Cars.Remove(car);
+        //    return RedirectToAction(nameof(Index));
+        //}
     }
 }

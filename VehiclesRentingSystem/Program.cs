@@ -1,5 +1,8 @@
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.EntityFrameworkCore;
+using System.Xml.Linq;
 using VehicleRentingSystem.Contracts;
 using VehicleRentingSystem.Data.Models;
 using VehicleRentingSystem.Services;
@@ -44,6 +47,21 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.LoginPath = "/User/Login";
 });
 
+//builder.Services.Configure<RazorViewEngineOptions>(options =>
+//{
+//    options.AreaViewLocationFormats.Clear();
+//    options.AreaViewLocationFormats.Add("/Views/Car/All.cshtml");
+//    //options.AreaViewLocationFormats.Add("/Admin/{2}/Views/Shared/{0}.cshtml");
+//    //options.AreaViewLocationFormats.Add("/Views/Shared/{0}.cshtml");
+//});
+
+//{ 0}
+//-Action Name
+//{ 1}
+//-Controller Name
+//{ 2}
+//-Area Name
+
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddScoped<ICarService,CarService>();
@@ -74,21 +92,21 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
-//app.MapControllerRoute(
-//    name: "Admin",
-//    pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+app.MapControllerRoute(
+    name: "Admin",
+    pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
 
-//app.MapControllerRoute(
-//    name: "default",
-//    pattern: "{controller=Home}/{action=index}/{id?}");
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Home}/{action=index}/{id?}");
 
-app.UseEndpoints(
-                endpoints =>
-                {
-                    endpoints.MapControllerRoute("areaRoute", "{area:exists}/{controller=Home}/{action=Index}/{id?}");
-                    endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
-                    endpoints.MapRazorPages();
-                });
+//app.UseEndpoints(
+//                endpoints =>
+//                {
+//                    endpoints.MapControllerRoute("areaRoute", "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+//                    endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
+//                    endpoints.MapRazorPages();
+//                });
 
 
 app.MapRazorPages();

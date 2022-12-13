@@ -1,0 +1,43 @@
+﻿@using VehicleRentingSystem.Models.Car
+@model IEnumerable<CarViewModel>
+
+@{
+    ViewBag.Title = "Vehicles for Renting";
+}
+@if (Model.Count() == 0)
+{
+    <h3 class="text-center">There are no cars!</h3>
+}
+else
+{
+    <div class="text-center row">
+        @foreach (var car in Model)
+        {
+            <div class="card col-4" style="width: 20rem; ">
+                <img class="card-img-top" style="width: 18rem;"
+             src="@car.ImageUrl" alt="Book Image">
+                <div class="card-body">
+
+                    <h5 class="card-title mt-1">@car.Brand</h5>
+                    <p class="mb-0">Power: @car.Power</p>
+                    <p class="mb-0">Price/H: @car.PricePerHour$</p>
+                    <p>Type: @car.CarType</p>
+                </div>
+
+                <form class="input-group-sm" asp-route-carId="@car.Id" asp-controller="Car" asp-action="AddToCollection" method="post">
+                    <input type="submit" value="Rent the Car" class="fs-6 btn btn-success mb-3 p-2" />
+                </form>
+                <form class="input-group-sm" asp-route-carId="@car.Id" asp-controller="Car" asp-action="Detail" method="post">
+                    <input type="submit" value="Details" class="fs-6 btn btn-success mb-3 p-2" />
+                </form> 
+                @if (User.IsInRole("Admin"))
+                {
+                    <form class="input-group-sm" asp-area="Admin" asp-route-carId="@car.Id" asp-controller="Car" asp-action="Delete" method="post">
+                        <input type="submit" value="Delete" class="fs-6 btn btn-success mb-3 p-2" />
+                    </form>
+                }
+            </div>
+        }
+    </div>
+    
+}
