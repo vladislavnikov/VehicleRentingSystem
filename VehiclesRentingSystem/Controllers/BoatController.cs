@@ -29,6 +29,7 @@ namespace VehicleRentingSystem.Controllers
         }
 
         [HttpGet]
+        [Area("Admin")]
         public async Task<IActionResult> Add()
         {
             var model = new AddBoatViewModel() { };
@@ -37,6 +38,7 @@ namespace VehicleRentingSystem.Controllers
         }
 
         [HttpPost]
+        [Area("Admin")]
         public async Task<IActionResult> Add(AddBoatViewModel model)
         {
             if (!ModelState.IsValid)
@@ -57,6 +59,15 @@ namespace VehicleRentingSystem.Controllers
                 return View(model);
             }
 
+        }
+
+        [HttpPost]
+        [Area("Admin")]
+        public async Task<IActionResult> Delete(int boatId)
+        {
+
+            await boatService.DeleteBoatAsync(boatId);
+            return RedirectToAction(nameof(All));
         }
 
         [HttpPost]

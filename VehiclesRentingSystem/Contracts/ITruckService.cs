@@ -14,5 +14,7 @@ namespace VehicleRentingSystem.Contracts
         Task<IEnumerable<TruckViewModel>> GetRentedAsync(string userId);
 
         Task RemoveTruckFromCollectionAsync(int truckId, string userId);
+
+        Task DeleteTruckAsync(int truckId);
     }
 }

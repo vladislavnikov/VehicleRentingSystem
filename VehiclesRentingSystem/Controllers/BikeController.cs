@@ -13,6 +13,7 @@ namespace VehicleRentingSystem.Controllers
     public class BikeController : Controller
     {
         private readonly IBikeService bikeService;
+        
 
         public BikeController(IBikeService _bikeService)
         {
@@ -29,6 +30,7 @@ namespace VehicleRentingSystem.Controllers
 
 
         [HttpGet]
+        [Area("Admin")]
         public async Task<IActionResult> Add()
         {
             var model = new AddBikeViewModel() { };
@@ -37,6 +39,7 @@ namespace VehicleRentingSystem.Controllers
         }
 
         [HttpPost]
+        [Area("Admin")]
         public async Task<IActionResult> Add(AddBikeViewModel model)
         {
             if (!ModelState.IsValid)
@@ -57,6 +60,15 @@ namespace VehicleRentingSystem.Controllers
                 return View(model);
             }
 
+        }
+
+        [HttpPost]
+        [Area("Admin")]
+        public async Task<IActionResult> Delete(int bikeId)
+        {
+            await bikeService.DeleteBikeAsync(bikeId);
+            
+            return RedirectToAction(nameof(All));
         }
 
         [HttpPost]

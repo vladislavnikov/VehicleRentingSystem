@@ -64,6 +64,13 @@ namespace VehicleRentingSystem.Services
             }
         }
 
+        public async Task DeleteBusAsync(int busId)
+        {
+            var bus = await context.Buses.FirstOrDefaultAsync(b => b.Id == busId);
+            context.Buses.Remove(bus);
+            await context.SaveChangesAsync();
+        }
+
         public async Task<IEnumerable<BusViewModel>> GetAllBusAsync()
         {
             var buses = await context.Buses.ToListAsync();

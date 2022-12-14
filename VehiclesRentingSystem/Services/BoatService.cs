@@ -63,6 +63,13 @@ namespace VehicleRentingSystem.Services
             }
         }
 
+        public async Task DeleteBoatAsync(int boatId)
+        {
+            var boat = context.Boats.FirstOrDefault(b => b.Id == boatId);
+            context.Boats.Remove(boat);
+            await context.SaveChangesAsync();
+        }
+
         public async Task<IEnumerable<BoatViewModel>> GetAllBoatAsync()
         {
             var boats = await context.Boats.ToListAsync();

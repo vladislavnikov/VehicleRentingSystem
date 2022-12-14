@@ -28,6 +28,7 @@ namespace VehicleRentingSystem.Controllers
         }
 
         [HttpGet]
+        [Area("Admin")]
         public async Task<IActionResult> Add()
         {
             var model = new AddBusViewModel(){ };
@@ -36,6 +37,7 @@ namespace VehicleRentingSystem.Controllers
         }
 
         [HttpPost]
+        [Area("Admin")]
         public async Task<IActionResult> Add(AddBusViewModel model)
         {
             if (!ModelState.IsValid)
@@ -56,6 +58,15 @@ namespace VehicleRentingSystem.Controllers
                 return View(model);
             }
 
+        }
+
+        [HttpPost]
+        [Area("Admin")]
+        public async Task<IActionResult> Delete(int busId)
+        {
+
+            await busService.DeleteBusAsync(busId);
+            return RedirectToAction(nameof(All));
         }
 
         [HttpPost]

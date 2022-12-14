@@ -65,6 +65,14 @@ namespace VehicleRentingSystem.Services
 
         }
 
+        public async Task DeleteCarAsync(int carId)
+        {
+            var car = context.Cars.FirstOrDefault(c => c.Id == carId);
+            context.Cars.Remove(car);
+
+            await context.SaveChangesAsync();
+        }
+
         public async Task<IEnumerable<CarViewModel>> GetAllCarAsync()
         {
             var cars = await context.Cars

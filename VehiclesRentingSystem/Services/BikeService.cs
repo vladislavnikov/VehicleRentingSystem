@@ -62,6 +62,14 @@ namespace VehicleRentingSystem.Services
             }
         }
 
+        public async Task DeleteBikeAsync(int bikeId)
+        {
+            var bike = context.Bikes.FirstOrDefault(b=> b.Id == bikeId);
+            context.Bikes.Remove(bike);
+            await context.SaveChangesAsync();
+
+        }
+
         public async Task<IEnumerable<BikeViewModel>> GetAllBikeAsync()
         {
             var bikes = await context.Bikes.ToListAsync();

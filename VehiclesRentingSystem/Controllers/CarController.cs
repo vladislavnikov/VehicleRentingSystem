@@ -75,9 +75,7 @@ namespace VehicleRentingSystem.Controllers
         public async Task<IActionResult> Delete(int carId)
         {
 
-            var car = context.Cars.FirstOrDefault(c => c.Id == carId);
-             context.Cars.Remove(car);
-            await context.SaveChangesAsync();
+            await carService.DeleteCarAsync(carId);
             return RedirectToAction(nameof(All));
         }
 

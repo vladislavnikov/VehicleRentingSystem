@@ -16,7 +16,7 @@ namespace VehicleRentingSystem.Areas.Admin.Controllers
         private readonly VehicleDbContext context;
         private readonly ICarService carService;
 
-        public CarController(VehicleDbContext _context, ICarService _carService)// CarService _carService)
+        public CarController(VehicleDbContext _context, ICarService _carService)
         {
             context = _context;
             this.carService = _carService;
