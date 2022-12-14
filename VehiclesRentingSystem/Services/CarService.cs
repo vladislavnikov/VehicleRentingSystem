@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json.Linq;
 using VehicleRentingSystem.Contracts;
 using VehicleRentingSystem.Data.Models;
 using VehicleRentingSystem.Models.Car;
@@ -19,10 +20,10 @@ namespace VehicleRentingSystem.Services
         public async Task AddCarAsync(AddCarViewModel model)
         {
             var car = new Car()
-            { //
-            Brand = model.Brand,
-            Power = model.Power,
-            PricePerHour = model.PricePerHour,
+            { 
+                Brand = model.Brand,
+                Power = model.Power,
+                PricePerHour = model.PricePerHour,
             CarTypeId = model.CarTypeId,
             ImageUrl = model.ImageUrl
             };

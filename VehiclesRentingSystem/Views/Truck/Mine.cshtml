@@ -34,6 +34,12 @@ else
                 <form class="input-group-sm" asp-route-truckId="@truck.Id" asp-controller="Truck" asp-action="Detail" method="post">
                     <input type="submit" value="Details" class="fs-6 btn btn-success mb-3 p-2" />
                 </form>
+                @if (User.IsInRole("Admin"))
+                {
+                    <form class="input-group-sm" asp-area="Admin" asp-route-truckId="@truck.Id" asp-controller="Truck" asp-action="Delete" method="post">
+                        <input type="submit" value="Delete" class="fs-6 btn btn-success mb-3 p-2" />
+                    </form>
+                }
             </div>
         }
     </div>
