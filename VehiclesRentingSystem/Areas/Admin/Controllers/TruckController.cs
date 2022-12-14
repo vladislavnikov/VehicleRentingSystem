@@ -1,12 +1,27 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using System.Data;
+using VehicleRentingSystem.Contracts;
 
 namespace VehicleRentingSystem.Areas.Admin.Controllers
 {
+    [Authorize(Roles = "Admin")]
+    [Area("Admin")]
     public class TruckController : Controller
     {
-        public IActionResult Index()
+        private readonly ITruckService truckService;
+
+        public TruckController(ITruckService _truckService)
         {
-            return View();
+            this.truckService = _truckService;
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> All()
+        {
+            var models = await truckService.GetAllTruckAsync();
+
+            return View(models);
         }
     }
 }

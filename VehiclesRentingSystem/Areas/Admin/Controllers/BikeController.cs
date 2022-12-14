@@ -1,32 +1,28 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using System.Data;
+using VehicleRentingSystem.Contracts;
 using VehicleRentingSystem.Models.Bike;
 using VehicleRentingSystem.Models.Car;
 using VehiclesRentingSystem.Data;
 
 namespace VehicleRentingSystem.Areas.Admin.Controllers
 {
+    [Authorize(Roles = "Admin")]
+    [Area("Admin")]
     public class BikeController : Controller
     {
-        private readonly VehicleDbContext context;
+        private readonly IBikeService bikeService;
 
-        public BikeController(VehicleDbContext _context)
+        public BikeController(IBikeService _bikeService)
         {
-            this.context = _context;
+            this.bikeService= _bikeService;
         }
 
         [HttpGet]
         public async Task<IActionResult> All()
         {
-            //var model = await carService.GetAllCarAsync();
-
-            var models = context.Bikes
-                .Select(c => new BikeViewModel
-                {
-                    Id = c.Id,
-                    Brand = c.Brand,
-                    PricePerHour = c.PricePerHour,
-                    ImageUrl = c.ImageUrl
-                });
+            var models = await bikeService.GetAllBikeAsync();
 
             return View(models);
         }

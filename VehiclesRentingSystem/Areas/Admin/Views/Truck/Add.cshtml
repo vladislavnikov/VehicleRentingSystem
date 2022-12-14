@@ -1,8 +1,8 @@
-﻿@using VehicleRentingSystem.Models.Bus
-@model AddBusViewModel
+﻿@using VehicleRentingSystem.Models.Trucks
+@model AddTruckViewModel
 
 @{
-    ViewBag.Title = "Add Bus";
+    ViewBag.Title = "Add Truck";
 }
 
 <h2 class="text-center">@ViewBag.Title</h2>
@@ -22,9 +22,9 @@
                 <span asp-validation-for="PricePerHour" class="text-danger"></span>
             </div>
             <div class="mb-3">
-                <label asp-for="@Model.Seats" class="form-label">Seats</label>
-                <input asp-for="@Model.Seats" class="form-control" aria-required="true" />
-                <span asp-validation-for="Seats" class="text-danger"></span>
+                <label asp-for="@Model.MaxWeight" class="form-label">MaxWeight</label>
+                <input asp-for="@Model.MaxWeight" class="form-control" aria-required="true" />
+                <span asp-validation-for="MaxWeight" class="text-danger"></span>
             </div>
             <div class="mb-3">
                 <label asp-for="@Model.Power" class="form-label">Power</label>
@@ -36,7 +36,7 @@
                 <input asp-for="@Model.ImageUrl" class="form-control" aria-required="true" />
                 <span asp-validation-for="ImageUrl" class="text-danger"></span>
             </div>
-            <div class="mb-3">
+            <div class="mb-3" asp-area="Admin" asp-controller="Truck" asp-action="Add" method="post">
                 <input class="btn btn-primary" type="submit" value="Add" />
             </div>
         </form>

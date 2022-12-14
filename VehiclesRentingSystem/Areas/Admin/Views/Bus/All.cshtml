@@ -6,11 +6,7 @@
 }
 @if (Model.Count() == 0)
 {
-
-    <h3 class="text-center">Ops...You do not have any rents.</h3>
-
-    <center><a class="nav-link text-dark" asp-area="" asp-controller="Bus" asp-action="All">You can rent HERE!</a></center>
-    <hr />
+    <h3 class="text-center">There are no buses!</h3>
 }
 else
 {
@@ -28,12 +24,18 @@ else
                 <p class="mb-0">Price/H: @bus.PricePerHour$</p>
             </div>
 
-            <form class="input-group-sm" asp-route-busId="@bus.Id" asp-controller="Bus" asp-action="RemoveBusFromCollection" method="post">
-                <input type="submit" value="Leave the Bus" class="fs-6 btn btn-success mb-3 p-2" />
+            <form class="input-group-sm" asp-route-busId="@bus.Id" asp-controller="Bus" asp-action="AddBusToCollection" method="post">
+                <input type="submit" value="Rent the Bus" class="fs-6 btn btn-success mb-3 p-2" />
             </form>
                 <form class="input-group-sm" asp-route-busId="@bus.Id" asp-controller="Bus" asp-action="Detail" method="post">
                     <input type="submit" value="Details" class="fs-6 btn btn-success mb-3 p-2" />
                 </form>
+                @if (User.IsInRole("Admin"))
+                {
+                    <form class="input-group-sm" asp-area="Admin" asp-route-busId="@bus.Id" asp-controller="Bus" asp-action="Delete" method="post">
+                        <input type="submit" value="Delete" class="fs-6 btn btn-success mb-3 p-2" />
+                    </form>
+                }
         </div>
     }
 </div>

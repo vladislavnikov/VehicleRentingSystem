@@ -30,7 +30,7 @@ else
                 </form>
                 @if (User.IsInRole("Admin"))
                 {
-                    <form class="input-group-sm" asp-area="Admin" asp-route-bikeId="@bike.Id" asp-controller="Bike" asp-action="Delete" method="post">
+                    <form class="input-group-sm" asp-area="Admin" asp-route-bikrId="@bike.Id" asp-controller="Bike" asp-action="Delete" method="post">
                         <input type="submit" value="Delete" class="fs-6 btn btn-success mb-3 p-2" />
                     </form>
                 }

@@ -1,8 +1,8 @@
-﻿@using VehicleRentingSystem.Models.Trucks
-@model AddTruckViewModel
+﻿@using VehicleRentingSystem.Models.Bike
+@model AddBikeViewModel
 
 @{
-    ViewBag.Title = "Add Truck";
+    ViewBag.Title = "Add Bike";
 }
 
 <h2 class="text-center">@ViewBag.Title</h2>
@@ -22,23 +22,18 @@
                 <span asp-validation-for="PricePerHour" class="text-danger"></span>
             </div>
             <div class="mb-3">
-                <label asp-for="@Model.MaxWeight" class="form-label">MaxWeight</label>
-                <input asp-for="@Model.MaxWeight" class="form-control" aria-required="true" />
-                <span asp-validation-for="MaxWeight" class="text-danger"></span>
-            </div>
-            <div class="mb-3">
-                <label asp-for="@Model.Power" class="form-label">Power</label>
-                <input asp-for="@Model.Power" class="form-control" aria-required="true" />
-                <span asp-validation-for="Power" class="text-danger"></span>
-            </div>
-            <div class="mb-3">
                 <label asp-for="@Model.ImageUrl" class="form-label">Image URL</label>
                 <input asp-for="@Model.ImageUrl" class="form-control" aria-required="true" />
                 <span asp-validation-for="ImageUrl" class="text-danger"></span>
             </div>
-            <div class="mb-3">
-                <input class="btn btn-primary" type="submit" value="Add" />
+              <div class="mb-3" asp-area="Admin" asp-controller="Bike" asp-action="Add" method="post">
+                <input class="btn btn-primary"  type="submit" value="Add" />
             </div>
         </form>
     </div>
 </div>
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
