@@ -4,11 +4,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.3.32929.385
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VehicleRentingSystem", "VehiclesRentingSystem\VehicleRentingSystem.csproj", "{37E6DADB-7604-46AE-9BCF-B99A0DA845D6}"
-	ProjectSection(ProjectDependencies) = postProject
-		{0D6951A9-667B-428C-81F0-1046FAAE8936} = {0D6951A9-667B-428C-81F0-1046FAAE8936}
-	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{0D6951A9-667B-428C-81F0-1046FAAE8936}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VehicleRentingSystem.Tests", "Tests\VehicleRentingSystem.Tests.csproj", "{0D6951A9-667B-428C-81F0-1046FAAE8936}"
+	ProjectSection(ProjectDependencies) = postProject
+		{37E6DADB-7604-46AE-9BCF-B99A0DA845D6} = {37E6DADB-7604-46AE-9BCF-B99A0DA845D6}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
