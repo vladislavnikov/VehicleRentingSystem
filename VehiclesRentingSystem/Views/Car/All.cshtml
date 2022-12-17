@@ -19,8 +19,8 @@ else
                 <div class="card-body">
 
                     <h5 class="card-title mt-1">@car.Brand</h5>
-                    <p class="mb-0">Power: @car.Power</p>
-                    <p class="mb-0">Price/H: @car.PricePerHour$</p>
+                    <p class="mb-0">Power: @car.Power HP</p>
+                    <p class="mb-0">Price/H: @String.Format("{0:0.00}", @car.PricePerHour)$</p>
                     <p>Type: @car.CarType</p>
                 </div>
 

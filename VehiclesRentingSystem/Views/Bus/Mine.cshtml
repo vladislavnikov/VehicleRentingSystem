@@ -25,7 +25,7 @@ else
                 <h5 class="card-title mt-1">@bus.Brand</h5>
                 <p class="mb-0">Power: @bus.Power HP</p>
                 <p class="mb-0">Seats: @bus.Seats</p>
-                <p class="mb-0">Price/H: @bus.PricePerHour$</p>
+                    <p class="mb-0">Price/H: @String.Format("{0:0.00}", @bus.PricePerHour)$</p>
             </div>
 
             <form class="input-group-sm" asp-route-busId="@bus.Id" asp-controller="Bus" asp-action="RemoveBusFromCollection" method="post">

@@ -25,7 +25,7 @@ else
                     <h5 class="card-title mt-1">@truck.Brand</h5>
                     <p class="mb-0">Power: @truck.Power HP</p>
                     <p class="mb-0">MaxWeight: @truck.MaxWeight KG</p>
-                    <p class="mb-0">Price/H: @truck.PricePerHour$</p>
+                    <p class="mb-0">Price/H:  @String.Format("{0:0.00}", truck.PricePerHour)$</p>
                 </div>
 
                 <form class="input-group-sm" asp-route-truckId="@truck.Id" asp-controller="Truck" asp-action="RemoveTruckFromCollection" method="post">

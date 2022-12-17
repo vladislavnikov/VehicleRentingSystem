@@ -12,7 +12,7 @@
 
             <h5>Model:@Model.Brand</h5>
             <p>Power: @Model.Power</p>
-            <p>Price/H: @Model.PricePerHour$</p>
+            <p>Price/H: @String.Format("{0:0.0}", @Model.PricePerHour)$</p>
             <p>Type: @Model.CarType</p>
             </div>
         </div>

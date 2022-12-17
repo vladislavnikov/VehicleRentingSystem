@@ -21,7 +21,7 @@ else
 
                     <h5 class="card-title mt-1">@boat.Brand</h5>
                     <p class="mb-0">Power: @boat.Power HP</p>
-                    <p class="mb-0">Price/H: @boat.PricePerHour$</p>
+                    <p class="mb-0">Price/H:  @String.Format("{0:0.00}", boat.PricePerHour)$</p>
                 </div>
 
                 <form class="input-group-sm" asp-route-boatId="@boat.Id" asp-controller="Boat" asp-action="AddBoatToCollection" method="post">
