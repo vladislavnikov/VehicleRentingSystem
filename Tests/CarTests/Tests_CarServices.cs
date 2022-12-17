@@ -143,6 +143,33 @@ namespace VehicleRentingSystem.Tests.CarTests
 
         }
 
+        [Test]
+        public async Task Test_AddCarToCollectionThrowsUserException()
+        {
+            string userId = "4";
+
+            ICarService service =
+              new CarService(context);
+
+            var ex = Assert.ThrowsAsync<ArgumentException>(
+                 async () => await service.AddCarToCollectionAsync(1, userId));
+
+            Assert.That(ex.Message, Is.EqualTo("Invalid UserID"));
+        }
+
+        [Test]
+        public async Task Test_AddCarToCollectionThrowsCarException()
+        {
+            string userId = "1";
+
+            ICarService service =
+               new CarService(context);
+
+            var ex = Assert.ThrowsAsync<ArgumentException>(
+                 async () => await service.AddCarToCollectionAsync(5, userId));
+
+            Assert.That(ex.Message, Is.EqualTo("Invalid CarID"));
+        }
 
         [Test]
         public async Task Test_RemoveCarToCollection()
@@ -163,6 +190,18 @@ namespace VehicleRentingSystem.Tests.CarTests
 
         }
 
+        [Test]
+        public async Task Test_RemoveCarToCollectionThrowsUserException()
+        {
+            ICarService service =
+              new CarService(context);
+
+            var ex = Assert.ThrowsAsync<ArgumentException>(
+                  async () => await service.RemoveCarFromCollectionAsync(1, "2"));
+
+            Assert.That(ex.Message, Is.EqualTo("Invalid UserID"));
+        }
+
 
         [Test]
         public async Task Test_GetRented()
@@ -177,10 +216,22 @@ namespace VehicleRentingSystem.Tests.CarTests
 
             await service.AddCarToCollectionAsync(dbCar.Id, user.Id);
 
-            await service.RemoveCarFromCollectionAsync(dbCar.Id, user.Id);
+            var userRents = await service.GetRentedAsync(user.Id);
 
-            Assert.True(user.UsersCars.Count() == 0);
+            Assert.True(userRents.Count() == 1);
 
+        }
+
+        [Test]
+        public async Task Test_GetRentedThrowsUserException()
+        {
+            ICarService service =
+                new CarService(context);
+
+            var ex = Assert.ThrowsAsync<ArgumentException>(
+                 async () => await service.GetRentedAsync("2"));
+
+            Assert.That(ex.Message, Is.EqualTo("Invalid UserID"));
         }
 
 

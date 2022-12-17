@@ -47,7 +47,7 @@ namespace VehicleRentingSystem.Services
 
             if (bus == null)
             {
-                throw new ArgumentException("Invalid CarID");
+                throw new ArgumentException("Invalid BusID");
             }
 
             if (!user.UsersBuses.Any(b => b.BusId == busId))

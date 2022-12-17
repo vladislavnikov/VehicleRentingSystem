@@ -108,6 +108,36 @@ namespace VehicleRentingSystem.Tests.BoatTest
         }
 
         [Test]
+        public async Task Test_AddBoatToCollectionThrowsUserException()
+        {
+            string userId = "4";
+
+
+            IBoatService service =
+               new BoatService(context);
+
+            var ex = Assert.ThrowsAsync<ArgumentException>(
+                 async () => await service.AddBoatToCollectionAsync(1, userId));
+
+            Assert.That(ex.Message, Is.EqualTo("Invalid UserID"));
+        }
+
+        [Test]
+        public async Task Test_AddBoatToCollectionThrowsBoatException()
+        {
+            string userId = "1";
+
+
+            IBoatService service =
+                new BoatService(context);
+
+            var ex = Assert.ThrowsAsync<ArgumentException>(
+                 async () => await service.AddBoatToCollectionAsync(5, userId));
+
+            Assert.That(ex.Message, Is.EqualTo("Invalid BoatID"));
+        }
+
+        [Test]
         public async Task Test_RemoveBoatToCollection()
         {
             int boatId = 1;
@@ -125,6 +155,17 @@ namespace VehicleRentingSystem.Tests.BoatTest
             Assert.True(user.UsersBoats.Count() == 0);
         }
 
+        [Test]
+        public async Task Test_RemoveBoatToCollectionThrowsUserException()
+        {
+            IBoatService service =
+              new BoatService(context);
+
+            var ex = Assert.ThrowsAsync<ArgumentException>(
+                  async () => await service.RemoveBoatFromCollectionAsync(1, "2"));
+
+            Assert.That(ex.Message, Is.EqualTo("Invalid UserID"));
+        }
 
         [Test]
         public async Task Test_GetAllBoats()
@@ -137,6 +178,36 @@ namespace VehicleRentingSystem.Tests.BoatTest
             Assert.True(dbBoats.Count() == 3);
         }
 
+        [Test]
+        public async Task Test_GetRented()
+        {
+            int boatId = 1;
+
+            IBoatService service =
+               new BoatService(context);
+
+            var dbBoat = context.Boats.ToList()
+               .Find(c => c.Id == boatId);
+
+            await service.AddBoatToCollectionAsync(dbBoat.Id, user.Id);
+
+            var userRents = await service.GetRentedAsync(user.Id);
+
+            Assert.True(userRents.Count() == 1);
+
+        }
+
+        [Test]
+        public async Task Test_GetRentedThrowsUserException()
+        {
+            IBoatService service =
+               new BoatService(context);
+
+            var ex = Assert.ThrowsAsync<ArgumentException>(
+                 async () => await service.GetRentedAsync("2"));
+
+            Assert.That(ex.Message, Is.EqualTo("Invalid UserID"));
+        }
 
         [TearDown]
         public void TearDown()

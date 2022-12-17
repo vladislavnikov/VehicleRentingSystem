@@ -120,6 +120,34 @@ namespace VehicleRentingSystem.Tests.TruckTests
         }
 
         [Test]
+        public async Task Test_AddTruckToCollectionThrowsUserException()
+        {
+            string userId = "4";
+
+            ITruckService service =
+                 new TruckService(context);
+
+            var ex = Assert.ThrowsAsync<ArgumentException>(
+                 async () => await service.AddTruckToCollectionAsync(1, userId));
+
+            Assert.That(ex.Message, Is.EqualTo("Invalid UserID"));
+        }
+
+        [Test]
+        public async Task Test_AddTruckToCollectionThrowsTruckException()
+        {
+            string userId = "1";
+
+            ITruckService service =
+                 new TruckService(context);
+
+            var ex = Assert.ThrowsAsync<ArgumentException>(
+                 async () => await service.AddTruckToCollectionAsync(5, userId));
+
+            Assert.That(ex.Message, Is.EqualTo("Invalid TruckID"));
+        }
+
+        [Test]
         public async Task Test_RemoveTruckToCollection()
         {
             int truckId = 1;
@@ -135,6 +163,48 @@ namespace VehicleRentingSystem.Tests.TruckTests
             await service.RemoveTruckFromCollectionAsync(dbTruck.Id, user.Id);
 
             Assert.True(user.UsersTrucks.Count() == 0);
+        }
+
+        [Test]
+        public async Task Test_RemoveBikeToCollectionThrowsUserException()
+        {
+            ITruckService service =
+                new TruckService(context);
+
+            var ex = Assert.ThrowsAsync<ArgumentException>(
+                  async () => await service.RemoveTruckFromCollectionAsync(1, "2"));
+
+            Assert.That(ex.Message, Is.EqualTo("Invalid UserID"));
+        }
+
+        [Test]
+        public async Task Test_GetRented()
+        {
+            int truckId = 1;
+
+            ITruckService service =
+               new TruckService(context);
+
+            var dbBoat = context.Trucks.ToList()
+               .Find(c => c.Id == truckId);
+
+            await service.AddTruckToCollectionAsync(dbBoat.Id, user.Id);
+
+            var userRents = await service.GetRentedAsync(user.Id);
+
+            Assert.True(userRents.Count() == 1);
+        }
+
+        [Test]
+        public async Task Test_GetRentedThrowsUserException()
+        {
+            IBikeService service =
+               new BikeService(context);
+
+            var ex = Assert.ThrowsAsync<ArgumentException>(
+                 async () => await service.GetRentedAsync("2"));
+
+            Assert.That(ex.Message, Is.EqualTo("Invalid UserID"));
         }
 
         [TearDown]

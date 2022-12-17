@@ -138,6 +138,78 @@ namespace VehicleRentingSystem.Tests.BusTests
             Assert.True(user.UsersBuses.Count() == 0);
         }
 
+        [Test]
+        public async Task Test_RemoveBusToCollectionThrowsUserException()
+        {
+            IBusService service =
+              new BusService(context);
+
+            var ex = Assert.ThrowsAsync<ArgumentException>(
+                  async () => await service.RemoveBusFromCollectionAsync(1, "2"));
+
+            Assert.That(ex.Message, Is.EqualTo("Invalid UserID"));
+        }
+
+        [Test]
+        public async Task Test_GetRented()
+        {
+            int busId = 1;
+
+            IBusService service =
+               new BusService(context);
+
+            var dbBoat = context.Buses.ToList()
+               .Find(c => c.Id == busId);
+
+            await service.AddBusToCollectionAsync(dbBoat.Id, user.Id);
+
+            var userRents = await service.GetRentedAsync(user.Id);
+
+            Assert.True(userRents.Count() == 1);
+
+        }
+
+        [Test]
+        public async Task Test_GetRentedThrowsUserException()
+        {
+            IBusService service =
+              new BusService(context);
+
+            var ex = Assert.ThrowsAsync<ArgumentException>(
+                 async () => await service.GetRentedAsync("2"));
+
+            Assert.That(ex.Message, Is.EqualTo("Invalid UserID"));
+        }
+
+        [Test]
+        public async Task Test_AddBusToCollectionThrowsUserException()
+        {
+            string userId = "4";
+
+            IBusService service =
+                new BusService(context);
+
+            var ex = Assert.ThrowsAsync<ArgumentException>(
+                 async () => await service.AddBusToCollectionAsync(1, userId));
+
+            Assert.That(ex.Message, Is.EqualTo("Invalid UserID"));
+        }
+
+        [Test]
+        public async Task Test_AddBusToCollectionThrowsBusException()
+        {
+            string userId = "1";
+
+
+            IBusService service =
+                new BusService(context);
+
+            var ex = Assert.ThrowsAsync<ArgumentException>(
+                 async () => await service.AddBusToCollectionAsync(5, userId));
+
+            Assert.That(ex.Message, Is.EqualTo("Invalid BusID"));
+        }
+
         [TearDown]
         public void TearDown()
         {

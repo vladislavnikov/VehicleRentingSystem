@@ -46,7 +46,7 @@ namespace VehicleRentingSystem.Services
 
             if (boat == null)
             {
-                throw new ArgumentException("Invalid CarID");
+                throw new ArgumentException("Invalid BoatID");
             }
 
             if (!user.UsersBoats.Any(b => b.BoatId == boatId))
