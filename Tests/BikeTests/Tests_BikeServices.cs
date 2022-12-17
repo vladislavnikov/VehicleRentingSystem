@@ -18,6 +18,7 @@ namespace VehicleRentingSystem.Tests.BikeTests
     {
         private IEnumerable<Bike> bikeList;
         private VehicleDbContext context;
+        private User user;
 
         [SetUp]
         public void TestInitialize()
@@ -29,11 +30,26 @@ namespace VehicleRentingSystem.Tests.BikeTests
           new Bike(){Id=3, Brand = "YT",PricePerHour = 30, ImageUrl ="yt.jpg" }
          };
 
+
+            this.user = new User()
+            {
+                Id = "1",
+                UserName = "test",
+                Email = "test@mail.com",
+                PasswordHash = "asc",
+                UsersCars = new List<UserCar>(),
+                UsersBikes = new List<UserBike>(),
+                UsersTrucks = new List<UserTruck>(),
+                UsersBoats = new List<UserBoat>(),
+                UsersBuses = new List<UserBus>()
+            };
+
             var options = new DbContextOptionsBuilder<VehicleDbContext>()
                    .UseInMemoryDatabase(databaseName: "VehiclesInMemoryDb")
                    .Options;
             this.context = new VehicleDbContext(options);
             this.context.AddRangeAsync(this.bikeList);
+            this.context.AddRangeAsync(this.user);
             this.context.SaveChangesAsync();
         }
 
@@ -84,6 +100,47 @@ namespace VehicleRentingSystem.Tests.BikeTests
             var dbBikes = await service.GetAllBikeAsync();
 
             Assert.True(dbBikes.Count() == 3);
+        }
+
+        [Test]
+        public async Task Test_AddBikeToCollection()
+        {
+            int bikeId = 1;
+
+            IBikeService service =
+                new BikeService(context);
+
+            var dbBike = context.Bikes.ToList()
+               .Find(b => b.Id == bikeId);
+
+            await service.AddBikeToCollectionAsync(dbBike.Id, user.Id);
+
+            Assert.True(user.UsersBikes.Count() == 1);
+        }
+
+        [Test]
+        public async Task Test_RemoveBikeToCollection()
+        {
+            int bikeId = 1;
+
+            IBikeService service =
+               new BikeService(context);
+
+            var dbBike = context.Bikes.ToList()
+               .Find(c => c.Id == bikeId);
+
+            await service.AddBikeToCollectionAsync(dbBike.Id, user.Id);
+
+            await service.RemoveBikeFromCollectionAsync(dbBike.Id, user.Id);
+
+            Assert.True(user.UsersBikes.Count() == 0);
+        }
+
+
+        [TearDown]
+        public void TearDown()
+        {
+            this.context.Dispose();
         }
     }
 }

@@ -18,6 +18,7 @@ namespace VehicleRentingSystem.Tests.BoatTest
     {
         private IEnumerable<Boat> boatList;
         private VehicleDbContext context;
+        private User user;
 
         [SetUp]
         public void TestInitialize()
@@ -29,11 +30,25 @@ namespace VehicleRentingSystem.Tests.BoatTest
             new Boat(){Id=3,Brand="Suzuki",Power = 100,PricePerHour = 40, ImageUrl = "suzuki.com"}
             };
 
+            this.user = new User()
+            {
+                Id = "1",
+                UserName = "test",
+                Email = "test@mail.com",
+                PasswordHash = "asc",
+                UsersCars = new List<UserCar>(),
+                UsersBikes = new List<UserBike>(),
+                UsersTrucks = new List<UserTruck>(),
+                UsersBoats = new List<UserBoat>(),
+                UsersBuses = new List<UserBus>()
+            };
+
             var options = new DbContextOptionsBuilder<VehicleDbContext>()
                    .UseInMemoryDatabase(databaseName: "VehiclesInMemoryDb")
                    .Options;
             this.context = new VehicleDbContext(options);
             this.context.AddRangeAsync(this.boatList);
+            this.context.AddRangeAsync(this.user);
             this.context.SaveChangesAsync();
         }
 
@@ -77,6 +92,41 @@ namespace VehicleRentingSystem.Tests.BoatTest
         }
 
         [Test]
+        public async Task Test_AddBoatToCollection()
+        {
+            int boatId = 1;
+
+            IBoatService service =
+                new BoatService(context);
+
+            var dbBoat = context.Boats.ToList()
+               .Find(b => b.Id == boatId);
+
+            await service.AddBoatToCollectionAsync(dbBoat.Id, user.Id);
+
+            Assert.True(user.UsersBoats.Count() == 1);
+        }
+
+        [Test]
+        public async Task Test_RemoveBoatToCollection()
+        {
+            int boatId = 1;
+
+            IBoatService service =
+               new BoatService(context);
+
+            var dbBoat = context.Boats.ToList()
+               .Find(c => c.Id == boatId);
+
+            await service.AddBoatToCollectionAsync(dbBoat.Id, user.Id);
+
+            await service.RemoveBoatFromCollectionAsync(dbBoat.Id, user.Id);
+
+            Assert.True(user.UsersBoats.Count() == 0);
+        }
+
+
+        [Test]
         public async Task Test_GetAllBoats()
         {
             IBoatService service =
@@ -87,5 +137,11 @@ namespace VehicleRentingSystem.Tests.BoatTest
             Assert.True(dbBoats.Count() == 3);
         }
 
+
+        [TearDown]
+        public void TearDown()
+        {
+            this.context.Dispose();
+        }
     }
 }

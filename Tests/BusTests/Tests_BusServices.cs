@@ -18,6 +18,7 @@ namespace VehicleRentingSystem.Tests.BusTests
     {
         private IEnumerable<Bus> busList;
         private VehicleDbContext context;
+        private User user;
 
         [SetUp]
         public void TestInitialize()
@@ -29,11 +30,26 @@ namespace VehicleRentingSystem.Tests.BusTests
             new Bus(){Id=3,Brand="Bus3",Power = 100,PricePerHour = 40, Seats = 70 ,ImageUrl = "bus3.jpg"}
             };
 
+            this.user = new User()
+            {
+                Id = "1",
+                UserName = "test",
+                Email = "test@mail.com",
+                PasswordHash = "asc",
+                UsersCars = new List<UserCar>(),
+                UsersBikes = new List<UserBike>(),
+                UsersTrucks = new List<UserTruck>(),
+                UsersBoats = new List<UserBoat>(),
+                UsersBuses = new List<UserBus>()
+            };
+
+
             var options = new DbContextOptionsBuilder<VehicleDbContext>()
                    .UseInMemoryDatabase(databaseName: "VehiclesInMemoryDb")
                    .Options;
             this.context = new VehicleDbContext(options);
             this.context.AddRangeAsync(this.busList);
+            this.context.AddRangeAsync(this.user);
             this.context.SaveChangesAsync();
         }
 
@@ -86,6 +102,46 @@ namespace VehicleRentingSystem.Tests.BusTests
             var dbBuses = await service.GetAllBusAsync();
 
             Assert.True(dbBuses.Count() == 3);
+        }
+
+        [Test]
+        public async Task Test_AddBusToCollection()
+        {
+            int BusId = 1;
+
+            IBusService service =
+                new BusService(context);
+
+            var dbBus = context.Buses.ToList()
+               .Find(b => b.Id == BusId);
+
+            await service.AddBusToCollectionAsync(dbBus.Id, user.Id);
+
+            Assert.True(user.UsersBuses.Count() == 1);
+        }
+
+        [Test]
+        public async Task Test_RemoveBusToCollection()
+        {
+            int busId = 1;
+
+            IBusService service =
+                new BusService(context);
+
+            var dbBus = context.Buses.ToList()
+               .Find(b => b.Id == busId);
+
+            await service.AddBusToCollectionAsync(dbBus.Id, user.Id);
+
+            await service.RemoveBusFromCollectionAsync(dbBus.Id, user.Id);
+
+            Assert.True(user.UsersBuses.Count() == 0);
+        }
+
+        [TearDown]
+        public void TearDown()
+        {
+            this.context.Dispose();
         }
     }
 }

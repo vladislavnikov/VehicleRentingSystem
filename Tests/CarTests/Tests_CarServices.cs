@@ -17,6 +17,7 @@ namespace VehicleRentingSystem.Tests.CarTests
     {
         private IEnumerable<Car> carList;
         private IEnumerable<CarType> carTypeList;
+        private User user;
         private VehicleDbContext context;
 
         [SetUp]
@@ -36,12 +37,28 @@ namespace VehicleRentingSystem.Tests.CarTests
             };
 
 
+            this.user = new User()
+            {
+                Id = "1",
+                UserName = "test",
+                Email = "test@mail.com",
+                PasswordHash = "asc",
+                UsersCars = new List<UserCar>(),
+                UsersBikes = new List<UserBike>(),
+                UsersTrucks = new List<UserTruck>(),
+                UsersBoats = new List<UserBoat>(),
+                UsersBuses = new List<UserBus>()
+            };
+
+
+
             var options = new DbContextOptionsBuilder<VehicleDbContext>()
                    .UseInMemoryDatabase(databaseName: "VehiclesInMemoryDb")
                    .Options;
             this.context = new VehicleDbContext(options);
             this.context.AddRangeAsync(this.carList);
             this.context.AddRangeAsync(this.carTypeList);
+            this.context.AddRangeAsync(this.user);
             this.context.SaveChangesAsync();
 
         }
@@ -107,6 +124,70 @@ namespace VehicleRentingSystem.Tests.CarTests
 
             Assert.True(dbTypes.Count() == 2);
             
+        }
+
+        [Test]
+        public async Task Test_AddCarToCollection()
+        {
+            int carId = 1;
+
+            ICarService service =
+               new CarService(context);
+
+            var dbCar = context.Cars.ToList()
+               .Find(c => c.Id == carId);
+
+            await service.AddCarToCollectionAsync(dbCar.Id, user.Id);
+
+            Assert.True(user.UsersCars.Count() == 1);
+
+        }
+
+
+        [Test]
+        public async Task Test_RemoveCarToCollection()
+        {
+            int carId = 1;
+
+            ICarService service =
+               new CarService(context);
+
+            var dbCar = context.Cars.ToList()
+               .Find(c => c.Id == carId);
+
+            await service.AddCarToCollectionAsync(dbCar.Id, user.Id);
+
+            await service.RemoveCarFromCollectionAsync(dbCar.Id, user.Id);
+
+            Assert.True(user.UsersCars.Count() == 0);
+
+        }
+
+
+        [Test]
+        public async Task Test_GetRented()
+        {
+            int carId = 1;
+
+            ICarService service =
+               new CarService(context);
+
+            var dbCar = context.Cars.ToList()
+               .Find(c => c.Id == carId);
+
+            await service.AddCarToCollectionAsync(dbCar.Id, user.Id);
+
+            await service.RemoveCarFromCollectionAsync(dbCar.Id, user.Id);
+
+            Assert.True(user.UsersCars.Count() == 0);
+
+        }
+
+
+        [TearDown]
+        public void TearDown()
+        {
+            this.context.Dispose();
         }
     }
 }

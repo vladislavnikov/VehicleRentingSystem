@@ -18,6 +18,7 @@ namespace VehicleRentingSystem.Tests.TruckTests
     {
         private IEnumerable<Truck> truckList;
         private VehicleDbContext context;
+        private User user;
 
         [SetUp]
         public void TestInitialize()
@@ -29,11 +30,25 @@ namespace VehicleRentingSystem.Tests.TruckTests
             new Truck(){Id=3,Brand="Daff",Power = 100,PricePerHour = 40,MaxWeight = 1000 , ImageUrl = "daff.com"}
             };
 
+            this.user = new User()
+            {
+                Id = "1",
+                UserName = "test",
+                Email = "test@mail.com",
+                PasswordHash = "asc",
+                UsersCars = new List<UserCar>(),
+                UsersBikes = new List<UserBike>(),
+                UsersTrucks = new List<UserTruck>(),
+                UsersBoats = new List<UserBoat>(),
+                UsersBuses = new List<UserBus>()
+            };
+
             var options = new DbContextOptionsBuilder<VehicleDbContext>()
                    .UseInMemoryDatabase(databaseName: "VehiclesInMemoryDb")
                    .Options;
             this.context = new VehicleDbContext(options);
             this.context.AddRangeAsync(this.truckList);
+            this.context.AddRangeAsync(this.user);
             this.context.SaveChangesAsync();
         }
 
@@ -86,6 +101,46 @@ namespace VehicleRentingSystem.Tests.TruckTests
             var dbTrucks = await service.GetAllTruckAsync();
 
             Assert.True(dbTrucks.Count() == 3);
+        }
+
+        [Test]
+        public async Task Test_AddTruckToCollection()
+        {
+            int truckId = 1;
+
+            ITruckService service =
+                new TruckService(context);
+
+            var dbTruck = context.Trucks.ToList()
+               .Find(b => b.Id == truckId);
+
+            await service.AddTruckToCollectionAsync(dbTruck.Id, user.Id);
+
+            Assert.True(user.UsersTrucks.Count() == 1);
+        }
+
+        [Test]
+        public async Task Test_RemoveTruckToCollection()
+        {
+            int truckId = 1;
+
+            ITruckService service =
+                new TruckService(context);
+
+            var dbTruck = context.Trucks.ToList()
+               .Find(b => b.Id == truckId);
+
+            await service.AddTruckToCollectionAsync(dbTruck.Id, user.Id);
+
+            await service.RemoveTruckFromCollectionAsync(dbTruck.Id, user.Id);
+
+            Assert.True(user.UsersTrucks.Count() == 0);
+        }
+
+        [TearDown]
+        public void TearDown()
+        {
+            this.context.Dispose();
         }
     }
 }
