@@ -15,51 +15,98 @@ namespace VehicleRentingSystem.Tests.CarTests
     [TestFixture]
     public class Tests
     {
-        private IEnumerable<CarViewModel> cars;
+        private IEnumerable<Car> carList;
+        private IEnumerable<CarType> carTypeList;
         private VehicleDbContext context;
 
         [SetUp]
         public void TestInitialize()
         {
-            this.cars = new List<CarViewModel>()
-            { 
-            new CarViewModel(){Id=1,Brand="Audi",Power = 150,PricePerHour = 50, ImageUrl = "caraudi.com"},
-            new CarViewModel(){Id=2,Brand="BMW",Power = 170,PricePerHour = 60, ImageUrl = "carbmw.com"},
-            new CarViewModel(){Id=2,Brand="Honda",Power = 100,PricePerHour = 40, ImageUrl = "carhonda.com"}
+            this.carList = new List<Car>()
+            {
+            new Car(){Id=1,Brand="Audi",Power = 150,PricePerHour = 50, ImageUrl = "caraudi.com", CarTypeId=1},
+            new Car(){Id=2,Brand="BMW",Power = 170,PricePerHour = 60, ImageUrl = "carbmw.com", CarTypeId=1},
+            new Car(){Id=3,Brand="Honda",Power = 100,PricePerHour = 40, ImageUrl = "carhonda.com", CarTypeId=1}
             };
 
+            this.carTypeList = new List<CarType>()
+            { 
+            new CarType(){Id = 1, Name = "Sedan"},
+            new CarType(){Id = 2, Name = "Coupe"}
+            };
+
+
             var options = new DbContextOptionsBuilder<VehicleDbContext>()
-                   .UseInMemoryDatabase(databaseName: "VehiclesInMemoryDb") // Give a Unique name to the DB
+                   .UseInMemoryDatabase(databaseName: "VehiclesInMemoryDb")
                    .Options;
-            context= new VehicleDbContext(options);
-            context.AddRange(cars);
-            context.SaveChanges();
+            this.context = new VehicleDbContext(options);
+            this.context.AddRangeAsync(this.carList);
+            this.context.AddRangeAsync(this.carTypeList);
+            this.context.SaveChangesAsync();
 
         }
 
         [Test]
-        public void Test_DeleteCars()
+        public async Task Test_DeleteCars()
         {
             int carId = 1;
 
             ICarService service =
                 new CarService(context);
 
-            //Delete from context
-            service.DeleteCarAsync(carId);
-            context.SaveChanges();
+            await service.DeleteCarAsync(carId);
+            await context.SaveChangesAsync();
 
-            var dbCars = context.Cars.Select(c => new Car()
+            var dbCar = context.Cars.ToList()
+                .Find(c => c.Id == carId);
+
+            Assert.True(dbCar == null);
+        }
+
+        [Test]
+        public async Task Test_AddCar()
+        {
+            AddCarViewModel car = new AddCarViewModel()
             {
-                Id = c.Id,
-                Brand = c.Brand,
-                Power = c.Power,
-                PricePerHour = c.PricePerHour,
-                ImageUrl = c.ImageUrl
-            }).ToList();
+                Brand = "Ford",
+                Power = 140,
+                PricePerHour = 45,
+                ImageUrl = "ford.jpg",
+                CarTypeId = 1
+            };
 
-            Assert.True(dbCars.Count() == 2);
+            ICarService service =
+                new CarService(context);
 
+            await service.AddCarAsync(car);
+            await context.SaveChangesAsync();
+
+            var dbCars = context.Cars.ToList();
+
+            Assert.True(dbCars.Count() == 4);
+        }
+
+        [Test]
+        public async Task Test_GetAllCars()
+        {
+            ICarService service =
+                new CarService(context);
+
+            var dbCars = await service.GetAllCarAsync();
+
+            Assert.True(dbCars.Count() == 3);
+        }
+
+        [Test]
+        public async Task Test_GetAllTypes()
+        {
+            ICarService service =
+                new CarService(context);
+
+            var dbTypes = await service.GetCarTypesAsync();
+
+            Assert.True(dbTypes.Count() == 2);
+            
         }
     }
 }
