@@ -47,8 +47,8 @@ namespace VehicleRentingSystem.Controllers
 
             try
             {
-                await busService.AddBusAsync(model); //check if it is addbikevm or just bikevm
-                return RedirectToAction(nameof(All)); //AllBike
+                await busService.AddBusAsync(model); 
+                return RedirectToAction(nameof(All)); 
             }
             catch (Exception)
             {
@@ -91,7 +91,7 @@ namespace VehicleRentingSystem.Controllers
             var userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
             var model = await busService.GetRentedAsync(userId);
 
-            return View("Mine", model); //Mine, Bus
+            return View("Mine", model); 
         }
 
         public async Task<IActionResult> RemoveBusFromCollection(int busId)

@@ -11,10 +11,9 @@ namespace VehiclesRentingSystem.Controllers
         {
             if (User?.Identity?.IsAuthenticated ?? false)
             {
-                // return RedirectToAction("All", "Car");
                 return View();
             }
-            //
+            
             return View();
         }
 

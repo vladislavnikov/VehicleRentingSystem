@@ -47,8 +47,8 @@ namespace VehicleRentingSystem.Controllers
 
             try
             {
-                await truckService.AddTruckAsync(model); //check if it is addbikevm or just bikevm
-                return RedirectToAction(nameof(All)); //All
+                await truckService.AddTruckAsync(model); 
+                return RedirectToAction(nameof(All)); 
             }
             catch (Exception)
             {

@@ -16,51 +16,25 @@ builder.Services.AddDbContext<VehicleDbContext>(options =>
     options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-//builder.Services.AddDefaultIdentity<User>(options =>
-//{
-//    options.SignIn.RequireConfirmedAccount = false;
-//    options.Password.RequireDigit = false;
-//    options.Password.RequireLowercase = false;
-//    options.Password.RequireNonAlphanumeric = false;
-//    options.Password.RequireUppercase = false;
-//})
-//    .AddRoles<IdentityRole>()
-//    .AddEntityFrameworkStores<VehicleDbContext>();
-
 builder.Services.AddDefaultIdentity<User>(options =>
 {
     options.SignIn.RequireConfirmedAccount = false;
-    options.Password.RequireDigit = false;
-    options.Password.RequireLowercase = false;
-    options.Password.RequireNonAlphanumeric = false;
-    options.Password.RequireUppercase = false;
+    options.Password.RequireDigit = true;
+    options.Password.RequireLowercase = true;
+    options.Password.RequireNonAlphanumeric = true;
+    options.Password.RequireUppercase = true;
+    options.Password.RequiredLength = 6;
 })
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<VehicleDbContext>();
 
 
-//
 
 
 builder.Services.ConfigureApplicationCookie(options =>
 {
     options.LoginPath = "/User/Login";
 });
-
-//builder.Services.Configure<RazorViewEngineOptions>(options =>
-//{
-//    options.AreaViewLocationFormats.Clear();
-//    options.AreaViewLocationFormats.Add("/Views/Car/All.cshtml");
-//    //options.AreaViewLocationFormats.Add("/Admin/{2}/Views/Shared/{0}.cshtml");
-//    //options.AreaViewLocationFormats.Add("/Views/Shared/{0}.cshtml");
-//});
-
-//{ 0}
-//-Action Name
-//{ 1}
-//-Controller Name
-//{ 2}
-//-Area Name
 
 builder.Services.AddControllersWithViews();
 
@@ -70,6 +44,10 @@ builder.Services.AddScoped<IBoatService,BoatService>();
 builder.Services.AddScoped<ITruckService,TruckService>();
 builder.Services.AddScoped<IBikeService,BikeService>();
 
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.LoginPath = "/Account/Login";
+});
 
 var app = builder.Build();
 
@@ -99,15 +77,6 @@ app.MapControllerRoute(
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=index}/{id?}");
-
-//app.UseEndpoints(
-//                endpoints =>
-//                {
-//                    endpoints.MapControllerRoute("areaRoute", "{area:exists}/{controller=Home}/{action=Index}/{id?}");
-//                    endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
-//                    endpoints.MapRazorPages();
-//                });
-
 
 app.MapRazorPages();
 

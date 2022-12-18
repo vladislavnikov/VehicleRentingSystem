@@ -7,6 +7,7 @@ using VehicleRentingSystem.Models.User;
 namespace VehicleRentingSystem.Controllers
 {
     [Authorize]
+    [AutoValidateAntiforgeryToken]
     public class UserController : Controller
     {
         private readonly UserManager<User> userManager;
@@ -54,7 +55,7 @@ namespace VehicleRentingSystem.Controllers
 
             if (result.Succeeded)
             {
-                return RedirectToAction("Login", "User"); //Login User
+                return RedirectToAction("Login", "User"); 
             }
 
             foreach (var item in result.Errors)

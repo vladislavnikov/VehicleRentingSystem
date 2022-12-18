@@ -32,7 +32,6 @@ namespace VehicleRentingSystem.Controllers
 
         [HttpGet]
         [Area("Admin")]
-        //[Route("")]
         public async Task<IActionResult> Add()
         {
 
@@ -93,7 +92,7 @@ namespace VehicleRentingSystem.Controllers
                 throw;
             }
 
-            return RedirectToAction(nameof(Rented)); //
+            return RedirectToAction(nameof(Rented)); 
         }
 
         public async Task<IActionResult> Rented()
